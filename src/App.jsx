@@ -1,11 +1,13 @@
+import React from "react";
+import Login from "./components/Login/Login";
+import "./app.scss"
 
 const App = () => {
-
   return (
-    <div >
-      HOla
-    </div>
+    <>
+      <Login/>
+    </>
   )
 }
 
-export default App;
+export default App
