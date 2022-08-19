@@ -1,9 +1,12 @@
+import FileTable from "./components/FileTable/FileTable";
+import Header from "./components/Header/Header";
 
 const App = () => {
 
   return (
     <div >
-      HOla
+      <Header />
+      <FileTable />
     </div>
   )
 }
