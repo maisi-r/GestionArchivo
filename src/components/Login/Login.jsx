@@ -10,10 +10,8 @@ const Login = ()=>{
             
             
             <div className="content">
-            <div className="header">Login</div>
-            <div className="image">
-                <img src={marcalogo}/>
-            </div>
+            <div className="header-login">Login</div>
+           
             <div className="form">
                 <div className="form-group">
                     <label htmlFor="username">Usuario</label>
@@ -24,7 +22,7 @@ const Login = ()=>{
                     <input type="password" name="password" placeholder="password" />
                 </div>
             </div>
-            <div className="footer">
+            <div className="footer-login">
                 <button type="button" className="btn">Login</button>
             </div>
             </div>
