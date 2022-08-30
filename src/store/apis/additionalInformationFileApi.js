@@ -19,8 +19,8 @@ export const addtionalInformationFileApi = createApi({
         }),
 
         addAditionaInformationFile: builder.mutation({
-            query: (data) => ({
-                url: '/addtional-inforation-file',
+            query: ({id, ...data}) => ({
+                url: `/addtional-inforation-file/${id}`,
                 method: 'POST',
                 body: data
             }),
