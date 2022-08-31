@@ -18,9 +18,13 @@ export const fileApi = createApi({
         }),
 
         addFile: builder.mutation({
-            query: (data) => ({
+            query: ({data}) => ({
                 url: '/file',
                 method: 'POST',
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'multipart/form-data',
+                },
                 body: data
             }),
             invalidatesTags: ["File"]
