@@ -1,8 +1,8 @@
 import React from 'react'
-import { useAddFileMutation } from '../../store/apis/fileApi'
 import "./formf.scss"
 import { useFormik } from 'formik';
 import * as Yup from "yup"; 
+import { useAddFileMutation } from '../../store/apis/fileApi';
 
 const FormFile = () =>  {
 
@@ -14,7 +14,7 @@ const FormFile = () =>  {
             name: "",
             system: "",
             description: "",
-            file: ""
+            file: null
         },
 
         validationSchema: Yup.object({
@@ -26,7 +26,11 @@ const FormFile = () =>  {
         onSubmit: async (values) => {
           try {
             console.log(values);
-            // const result = await uploadFile({data:values});
+            const formData = new FormData();
+            formData.append('file', values.file);
+            formData.append('name', values.name);
+            formData.append('system', values.system);
+            formData.append('description', values.description);
             // console.log(result);
             formik.resetForm();
           } catch (error) {
