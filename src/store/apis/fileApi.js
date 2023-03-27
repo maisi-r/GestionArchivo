@@ -12,8 +12,14 @@ export const fileApi = createApi({
 
     endpoints: (builder) => ({
 
+        getFile: builder.query({
+            query: (id) => `/file/${id}`, 
+            providesTags: ["File"]
+        }),
+
+
         getFiles: builder.query({
-            query: () => '/file',
+            query: () => '/file/?size=100', 
             providesTags: ["File"]
         }),
 
@@ -41,8 +47,9 @@ export const fileApi = createApi({
                 method: 'DELETE'
             }),
             invalidatesTags: ["File"]
-        })
+        }),
+        
     })
 });
 
-export const { useGetFilesQuery, useAddFileMutation, useUpdateFileMutation, useDeleteFileMutation  } = fileApi;
+export const { useGetFilesQuery, useAddFileMutation, useUpdateFileMutation, useDeleteFileMutation, useGetFileQuery } = fileApi;

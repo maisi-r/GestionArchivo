@@ -14,13 +14,13 @@ export const addtionalInformationFileApi = createApi({
     endpoints: (builder) => ({
 
         getAdditionalInformationFile: builder.query({
-            query: () => '/addtional-inforation-file',
+            query: () => '/additional-information-file',
             providesTags: ["Additional"]
         }),
 
         addAditionaInformationFile: builder.mutation({
-            query: ({id, ...data}) => ({
-                url: `/addtional-inforation-file/${id}`,
+            query: ({id, data}) => ({
+                url: `/additional-information-file/${id}`,
                 method: 'POST',
                 body: data
             }),
@@ -29,7 +29,7 @@ export const addtionalInformationFileApi = createApi({
 
         updateAditionaInformationFile: builder.mutation({
              query: ({ id, data }) => ({
-                 url: `/addtional-inforation-file/${id}`,
+                 url: `/additional-information-file/${id}`,
                  method: 'PUT',
                  body: data
              }),
@@ -38,7 +38,7 @@ export const addtionalInformationFileApi = createApi({
 
         deleteAditionaInformationFile: builder.mutation({
             query: (id) => ({
-                url: `/addtional-inforation-file/${id}`,
+                url: `/additional-information-file/${id}`,
                 method: 'DELETE'
             }),
             invalidatesTags: ["Additional"]

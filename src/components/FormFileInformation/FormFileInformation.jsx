@@ -4,20 +4,35 @@ import { useFormik } from 'formik';
 import * as Yup from "yup"; 
 import { useAddAditionaInformationFileMutation } from '../../store/apis/additionalInformationFileApi';
 import { useParams } from 'react-router-dom';
+import { parse, isDate } from "date-fns";
+import DatePicker from "react-datepicker";
+import { Navigate, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+import "react-datepicker/dist/react-datepicker.css";
+
 
 
 const FormFileInformation = () => {
     const { id } = useParams();
     const required = "El campo es requerido";
     const [addInformation] = useAddAditionaInformationFileMutation();
+    function parseDateString(value, originalValue) {
+        const parsedDate = isDate(originalValue)
+          ? originalValue
+          : parse(originalValue, "yyyy-MM-dd", new Date());
+      
+        return parsedDate;
+      }
+      const navigate = useNavigate();
     const formik = useFormik({
-
+    
         initialValues: {
             number: "",
             correlative: "",
             body: "",
             year: "",
-            date: "",
+            date: Date.now(),
             initiator: "",
             issue: ""
         },
@@ -27,7 +42,7 @@ const FormFileInformation = () => {
             correlative: Yup.number().required(required),
             year: Yup.number().required(required),
             body: Yup.number().required(required),
-            date: Yup.string().required(required),
+            date: Yup.date().nullable().transform(parseDateString).typeError("Al editar debe seleccionar nuevamente la fecha"),   
             initiator: Yup.string().required(required),
             issue: Yup.string().required(required),
         }),
@@ -35,21 +50,25 @@ const FormFileInformation = () => {
         onSubmit: async (values) => {
           try {
             console.log(values);
-            //const result = await addInformation({ id : id, data: values});
+            const result = await addInformation({ id : id, data: values});
+            console.log(result);
+            Swal.fire({ title: "Exito", text: "Archivo guardado correctamente", icon: "success", timer: 3500 });
+            navigate(`/archivos/`);
             formik.resetForm();
           } catch (error) {
             console.log(error);
           }
+          
         },
     });
     
     const { setFieldValue,handleSubmit, handleChange, handleBlur, values, errors, touched } = formik;
-
+   
     return (
 
         <div className='container'>
       
-        <h1>Nueva Carga</h1>
+        <h1>Carga Adicional</h1>
         <div className="base-container">
         <form onClick={handleSubmit} className="form">
         <div className='form-group item1'>
@@ -57,7 +76,7 @@ const FormFileInformation = () => {
             <input
                 type="text"
                 className={ `input__light-${errors.number && touched.number ? 'warning' : 'success'}` }
-                placeholder="Ingrese el nombre"
+                placeholder="Ingrese el número del expediente"
                 value={ values.number }
                 onBlur={ handleBlur }
                 onChange={ handleChange }
@@ -130,15 +149,16 @@ const FormFileInformation = () => {
 
         <div className='form-group item7'>
             <label htmlFor="date">Fecha</label>
-            <input
-                type="text"
-                className={ `input__light-${errors.date && touched.date ? 'warning' : 'success'}` }
-                placeholder="Ingrese la fecha"
-                value={ values.date}
-                onBlur={ handleBlur }
-                onChange={ handleChange }
-                name="date"
-            />
+            <DatePicker
+            className={ `input__light-${errors.date && touched.date ? 'warning' : 'success'}` }
+            label="Fecha de inicio"
+            selected={ values.date }
+            id="date"
+            name="date"
+            value={ values.date }
+            onChange={ (value) => { formik.setFieldValue('date', value)} }
+          />
+          { errors.date && touched.date && (<div className='text-red'><small className="text-red-600">{ errors.date }</small></div>) }
             { errors.date && touched.date && (
                 <div className='text-red'>
                     <small className="text-red-600">{ errors.date }</small>
