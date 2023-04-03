@@ -6,9 +6,9 @@ import {Routes, Route} from "react-router-dom";
 import FormFile from "./components/FormFile/FormFile";
 import FormFileInformation from "./components/FormFileInformation/FormFileInformation";
 import Login from "./components/auth/Login/Login"
-import Welcome from "./components/auth/Login/Welcome";
 import Description from "./components/Description/DescriptionTable";
 import DescriptionFile from "./components/Description/DescriptionFileInformation";
+import FormEdit from "./components/FormEdit";
 
 
 
@@ -52,6 +52,7 @@ const App = () => {
 
         <Route path="/carga" element={<FormFile/>} /> 
 
+        <Route path="/editar/:id" element={<FormEdit/>}/>
         
               
 

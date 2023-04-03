@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { editOn } from '../../store/slices/idEditSlice';
 import { Link } from "react-router-dom";
 import { useDeleteFileMutation } from '../../store/apis/fileApi';
-import Busqueda from '../busqueda';
 import { GlobalFilter } from '../GlobalFilter';
 
 const Table = ({ columns, data,handleEdit, totalItems,handleDownload,table, typeUser = false }) => {

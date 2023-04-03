@@ -1,75 +1,83 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import * as Yup from "yup"; 
-import { useAddAditionaInformationFileMutation } from '../../store/apis/additionalInformationFileApi';
-import { useParams } from 'react-router-dom';
-import { parse, isDate } from "date-fns";
-import DatePicker from "react-datepicker";
-import { Navigate, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import React, { useEffect, useState } from 'react';
+// import { useFormik } from 'formik';
+// import * as Yup from "yup"; 
+// import { useGetFilesQuery, useUpdateFileMutation } from '../../store/apis/fileApi';
+// import { useParams } from 'react-router-dom';
+// import { parse, isDate } from "date-fns";
+// import DatePicker from "react-datepicker";
+// import { Navigate, useNavigate } from 'react-router-dom';
+// import Swal from 'sweetalert2';
 
 import "react-datepicker/dist/react-datepicker.css";
 
+const FormEdit = () => {
+  // const { id } = useParams();
+  // const required = "El campo es requerido";
+  // const [editInformation] = useUpdateFileMutation();
+  // const { data: initialValues, isLoading } = useGetFilesQuery(id);
+  // const [startDate, setStartDate] = useState(new Date(initialValues?.date));
+  // const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   if (initialValues) {
+  //     setStartDate(new Date(initialValues.date));
+  //   }
+  // }, [initialValues]);
 
-const FormFile = () => {
-    const { id } = useParams();
-    const required = "El campo es requerido";
-    const [addInformation] = useAddAditionaInformationFileMutation();
-    function parseDateString(value, originalValue) {
-        const parsedDate = isDate(originalValue)
-          ? originalValue
-          : parse(originalValue, "yyyy-MM-dd", new Date());
-      
-        return parsedDate;
-      }
-      const navigate = useNavigate();
-    const formik = useFormik({
-    
-        initialValues: {
-            number: "",
-            correlative: "",
-            body: "",
-            year: "",
-            date: Date.now(),
-            initiator: "",
-            issue: ""
-        },
+  // function parseDateString(value, originalValue) {
+  //   const parsedDate = isDate(originalValue)
+  //     ? originalValue
+  //     : parse(originalValue, "yyyy-MM-dd", new Date());
+  
+  //   return parsedDate;
+  // }
 
-        validationSchema: Yup.object({
-            number: Yup.number().required(required),
-            correlative: Yup.number().required(required),
-            year: Yup.number().required(required),
-            body: Yup.number().required(required),
-            date: Yup.date().nullable().transform(parseDateString).typeError("Al editar debe seleccionar nuevamente la fecha"),   
-            initiator: Yup.string().required(required),
-            issue: Yup.string().required(required),
-        }),
-    
-        onSubmit: async (values) => {
-          try {
-            console.log(values);
-            const result = await addInformation({ id : id, data: values});
-            console.log(result);
-            Swal.fire({ title: "Exito", text: "Archivo guardado correctamente", icon: "success", timer: 3500 });
-            navigate(`/archivos/`);
-            formik.resetForm();
-          } catch (error) {
-            console.log(error);
-          }
-          
-        },
-    });
-    
-    const { setFieldValue,handleSubmit, handleChange, handleBlur, values, errors, touched } = formik;
-   
-    return (
+  // const formik = useFormik({
+  //   initialValues: initialValues || {
+  //     number: "",
+  //     correlative: "",
+  //     body: "",
+  //     year: "",
+  //     date: Date.now(),
+  //     initiator: "",
+  //     issue: ""
+  //   },
 
-        <div className='container'>
-      
-        <h1>Carga Adicional</h1>
-        <div className="base-container">
-        <form onClick={handleSubmit} className="form">
+  //   validationSchema: Yup.object({
+  //     number: Yup.number().required(required),
+  //     correlative: Yup.number().required(required),
+  //     year: Yup.number().required(required),
+  //     body: Yup.number().required(required),
+  //     date: Yup.date().nullable().transform(parseDateString).typeError("Al editar debe seleccionar nuevamente la fecha"),   
+  //     initiator: Yup.string().required(required),
+  //     issue: Yup.string().required(required),
+  //   }),
+
+  //   onSubmit: async (values) => {
+  //     try {
+  //       console.log(values);
+  //       const result = await editInformation({ id, data: values });
+  //       console.log(result);
+  //       Swal.fire({ title: "Exito", text: "Archivo guardado correctamente", icon: "success", timer: 3500 });
+  //       navigate(`/archivos/`);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   },
+  // });
+
+  // const { handleSubmit, handleChange, handleBlur, values, errors, touched } = formik;
+
+  // if (isLoading) {
+  //   return <div>Cargando...</div>;
+  // }
+
+  return (
+    <div className='container'>
+      hola
+      {/* <h1>Editar Carga Adicional</h1>
+      <div className="base-container">
+        <form onSubmit={handleSubmit} className="form">
         <div className='form-group item1'>
             <label htmlFor="number">Expediente N°</label>
             <input
@@ -202,21 +210,18 @@ const FormFile = () => {
             )}
         </div>
 
-        <div className="form-group item8">
-                <button type="submit" className="btn">Nueva carga</button>
-            </div>
+    <div className='form-group'>
+        <button type="submit" className="button primary">{ "Guardar" }</button>
+        <button type="button" className="button secondary" onClick={() => navigate(`/archivos/`)}>
+          Cancelar
+        </button>
+    </div>
+    
+    </form>
+    </div> */}
+  </div>
+)}
 
-        
+export default FormEdit;
 
             
-            
-                 
-        </form>
-        </div>   
-        </div>   
-        
-
-    )
-}
-
-export default FormFile;
