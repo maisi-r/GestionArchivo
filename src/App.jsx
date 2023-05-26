@@ -16,6 +16,7 @@ const App = () => {
 
   
   return (
+    
     <div>
       
       <Header/>
@@ -54,8 +55,6 @@ const App = () => {
 
         <Route path="/editar/:id" element={<FormEdit/>}/>
         
-              
-
 
 
         

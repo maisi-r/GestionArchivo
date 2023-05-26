@@ -32,8 +32,6 @@ const FileTable = () => {
 
   
 
-  const navigate = useNavigate();
-
   const columnsDoc = useMemo(
       () => [
             {
@@ -49,10 +47,6 @@ const FileTable = () => {
     );
           
 
-      const goHome = () => {
-          navigate
-("/carga")
-        };
 
         
 

@@ -1,105 +1,94 @@
-import { useTable, usePagination,useGlobalFilter } from 'react-table'
-import style from "./table.scss"
-import { BiPencil, BiTrash, BiChevronsLeft,BiLineChart, BiChevronsRight, BiChevronLeft, BiChevronRight, BiPlusCircle, BiBookmarkAltPlus,BiZoomIn } from "react-icons/bi";
+import { useTable, usePagination, useGlobalFilter } from 'react-table';
+import style from "./table.scss";
+import { BiPencil, BiTrash, BiChevronsLeft, BiLineChart, BiChevronsRight, BiChevronLeft, BiChevronRight, BiPlusCircle, BiBookmarkAltPlus, BiZoomIn } from "react-icons/bi";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { motion } from "framer-motion";
 import React, { useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { editOn } from '../../store/slices/idEditSlice';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import { useDeleteFileMutation } from '../../store/apis/fileApi';
 import { GlobalFilter } from '../GlobalFilter';
 
-const Table = ({ columns, data,handleEdit, totalItems,handleDownload,table, typeUser = false }) => {
-    // Use the state and functions returned from useTable to build your UI
-    const dispatch = useDispatch();  
-    const [deleteFile] = useDeleteFileMutation();
-    const navigate = useNavigate();
-    
-   
-    const {
-      getTableProps,
-      getTableBodyProps,
-      headerGroups,
-      prepareRow,
-      page,
-      row,
-      canPreviousPage,
-      canNextPage,
-      pageOptions,
-      pageCount,
-      gotoPage,
-      nextPage,
-      previousPage,
-      state,
-      setGlobalFilter,
-      setPageSize,
-      state: { pageIndex, pageSize },
-    } = useTable({
+const Table = ({ columns, data, handleEdit, totalItems, handleDownload, table, typeUser = false }) => {
+  const dispatch = useDispatch();
+  const [deleteFile] = useDeleteFileMutation();
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setGlobalFilter,
+    setPageSize,
+    state: { pageIndex, pageSize, globalFilter },
+  } = useTable(
+    {
       columns,
       data,
       initialState: { pageIndex: 0 },
-      
-  },useGlobalFilter,usePagination
-  
-      
-    )
+    },
+    useGlobalFilter,
+    usePagination
+  );
 
-    const {globalFilter} = state
-    
+  async function handleDelete(id) {
+    Swal.fire({
+      title: '¿Está seguro que desea eliminar este archivo?',
+      confirmButtonText: 'Eliminar',
+      denyButtonText: 'Cancelar',
+      showDenyButton: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deleteFile(id);
+        Swal.fire({ title: "Éxito", text: "Archivo eliminado correctamente", icon: "success", timer: 3500 });
+      }
+    });
+  }
 
-    async function handleDelete(id) {
-      console.log(id)
-              Swal.fire({title: '¿Esta seguro que desea elminar este archivo?', confirmButtonText: 'Eliminar', denyButtonText: `Cancelar`, showDenyButton: true,})
-                  .then(async (result) => {
-                      if (result.isConfirmed) {
-                          await deleteFile(id);
-                          Swal.fire({ title: "Exito", text: "Archivo Eliminado correctamente", icon: "success", timer: 3500 });
-                      }
-                  })
-                
-             }
-
-  async function handleDownload (id){
-    fetch(' http://138.117.77.156:3007/api/file/download' + id, {
-        method: 'get',
-        headers: {
-            Accept: 'application/octet-stream',
-            'Content-Type': 'application/octet-stream'
-        }
+  async function handleDownload(id) {
+    fetch(`http://138.117.77.156:3007/api/file/download/${id}`, {
+      method: 'get',
+      headers: {
+        Accept: 'application/octet-stream',
+        'Content-Type': 'application/octet-stream'
+      }
     }).then((res) => res.json());
+  }
+
+  const navigate = useNavigate();
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    navigate("/carga");
   };
-    
-              
-            
 
-    const handleNew = () => {
-      navigate
-("/carga")
-    };
-
-    function handleDispatchId(id) {
-      dispatch(editOn(id));
+  function handleDispatchId(id) {
+    dispatch(editOn(id));
   }
 
   useEffect(() => {
-      setPageSize(Number(10));
-  }, [])
-  
-    // Render the UI for your table
-    return (
+    setPageSize(Number(10));
+  }, []);
 
-      <>
-    <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+  return (
+    <>
+      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
-      { !typeUser &&
-                        
-                        <motion.button  whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }}  onClick={handleNew} className={style.table__headerButton}><BiPlusCircle />Nueva Carga</motion.button>
-                        
-                        
-                    }
+      {!typeUser && (
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} onClick={handleClick} className={style.table__headerButton}>
+          <BiPlusCircle />Nueva Carga
+        </motion.button>
+      )}
                     
       
       <table className='table table-bordered' {...getTableProps()}>
@@ -135,7 +124,7 @@ const Table = ({ columns, data,handleEdit, totalItems,handleDownload,table, type
 
                                         
                                         <th className={style.actions__icons}>
-
+                                        <Link to={`/editar/${row.original.id}`}>
                                             <motion.button
                                                 whileHover={{ scale: 1.05 }}
                                                 whileTap={{ scale: 1.02 }}
@@ -143,6 +132,7 @@ const Table = ({ columns, data,handleEdit, totalItems,handleDownload,table, type
                                             >
                                                 <BiPencil />
                                             </motion.button>
+                                            </Link>
                                             <motion.button
                                                 whileHover={{ scale: 1.05 }}
                                                 whileTap={{ scale: 1.02 }}
