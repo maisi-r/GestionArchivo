@@ -4,7 +4,6 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import PdfMostrar from '../Pdfmostrar';
 import { useParams } from 'react-router-dom';
 import { useGetFileQuery } from '../../store/apis/fileApi';
-import "./form.scss"
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
