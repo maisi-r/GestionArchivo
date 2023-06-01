@@ -1,16 +1,17 @@
-import React from 'react';
-import SectionContainer from '../../components/container/SectionContainer/SectionContainer';
-import { Document, Page, pdfjs } from 'react-pdf';
-import PdfMostrar from '../Pdfmostrar';
-import { useParams } from 'react-router-dom';
-import { useGetFileQuery } from '../../store/apis/fileApi';
+import React from "react";
+
+import { Document, Page, pdfjs } from "react-pdf";
+import PdfMostrar from "../Pdfmostrar";
+import { useParams } from "react-router-dom";
+import { useGetFileQuery } from "../../store/apis/fileApi";
+import SectionContainer from "../Container/SectionContainer/SectionContainer";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const Description = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetFileQuery(id);
-  console.log(data)
+  console.log(data);
   return (
     <SectionContainer>
       <h3>Detalle</h3>
@@ -32,7 +33,9 @@ const Description = () => {
                 <p>Numero: {data.file.additionalInformation.number}</p>
               </div>
               <div className="form-group item2">
-                <p>Correlativo: {data.file.additionalInformation.correlative}</p>
+                <p>
+                  Correlativo: {data.file.additionalInformation.correlative}
+                </p>
               </div>
               <div className="form-group item3">
                 <p>Año: {data.file.additionalInformation.year}</p>

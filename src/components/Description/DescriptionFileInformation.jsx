@@ -1,42 +1,35 @@
-import React, { useMemo } from 'react'
+import React, { useMemo } from "react";
 
-import SectionContainer from '../container/SectionContainer/SectionContainer';
-import Table from '../FileTable/Table';
+import Table from "../FileTable/Table";
 import { BiZoomIn } from "react-icons/bi";
 
 import { useParams } from "react-router-dom";
-import { useGetFileQuery } from '../../store/apis/fileApi';
+import { useGetFileQuery } from "../../store/apis/fileApi";
+import SectionContainer from "../Container/SectionContainer/SectionContainer";
 
 const DescriptionFile = () => {
-    
+  const { id } = useParams();
 
-    const {id} = useParams();
-    
-     const { data, isLoading } = useGetFileQuery(id);
-     console.log(data?.file)
-     console.log(id)
-    
-    
+  const { data, isLoading } = useGetFileQuery(id);
+  console.log(data?.file);
+  console.log(id);
 
-  
-    
+  return (
+    <SectionContainer>
+      <h3>Detalle</h3>
 
-    return (
-        <SectionContainer>
-            <h3>Detalle</h3>
-        
-         {!isLoading &&    
-        <div className='container'>
-        <div className='form-group item1'>
-        <p>{data.file.name}</p>
+      {!isLoading && (
+        <div className="container">
+          <div className="form-group item1">
+            <p>{data.file.name}</p>
+          </div>
+          <div className="form-group item2">
+            <p>{data.file.system}</p>
+          </div>
         </div>
-        <div className='form-group item2'><p>{data.file.system}</p></div>
-    
-        </div>
-        
-        }       
-        </SectionContainer>
-    )
-}
+      )}
+    </SectionContainer>
+  );
+};
 
 export default DescriptionFile;
