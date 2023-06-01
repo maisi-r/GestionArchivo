@@ -66,7 +66,7 @@ const FormFile = () =>  {
                         <input {...register("name")} />
                     </div>
 
-                    <div className="form-group file2">
+                    {/* <div className="form-group file2">
                         <label htmlFor='name'>Sistema</label> 
                             <select className="select" defaultValue={""}
                                 {...register("system")}>
@@ -77,7 +77,7 @@ const FormFile = () =>  {
                                         <option key={idx} value={option.value}>{option.label}</option>
                                     ))}
                             </select>
-                    </div>
+                    </div> */}
 
                     <div className="form-group file3">
                         <label htmlFor='name'>Descripción</label> 
@@ -93,6 +93,10 @@ const FormFile = () =>  {
 
                     <div className="form-group file5">         
                     <button type="submit" className="btn">Nueva carga</button>
+                    </div>
+
+                    <div className="form-group file9">         
+                    <button onClick={() => navigate(-1)} className="btn">Cancelar</button>
                     </div>
                 </form>
             </div>   

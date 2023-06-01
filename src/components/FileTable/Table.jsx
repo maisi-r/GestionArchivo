@@ -92,10 +92,12 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
       <div className='Carga'>
         {!typeUser && (
           <Link to="/carga" onClick={handleNew} >
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} className={style.table__headerButton}>
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} className={"Carga"}>
               <BiPlusCircle />Nueva Carga
             </motion.button>
           </Link>
+
+          
         )}
       </div>
 
@@ -126,6 +128,7 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
   <motion.button
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 1.02 }}
+    className={"editar"}
   >
     <BiPencil />
   </motion.button>
@@ -133,6 +136,7 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 1.02 }}
+                    className={"borrar"}
                     onClick={() => { handleDelete(row.original.id) }}
                   >
                     <BiTrash />
@@ -140,6 +144,7 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
                   {console.log(row.original)}
                   <Link to={`/archivos/descripcion/${row.original.id}`}>
                     <motion.button
+                    className={"ver"}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 1.02 }}
                     >

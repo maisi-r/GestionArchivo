@@ -3,7 +3,8 @@ import React, { useMemo } from 'react'
 import SectionContainer from '../container/SectionContainer/SectionContainer';
 import Table from '../FileTable/Table';
 import { BiZoomIn } from "react-icons/bi";
-
+import "./form.scss"
+import "./formf.scss"
 import { useParams } from "react-router-dom";
 import { useGetFileQuery } from '../../store/apis/fileApi';
 

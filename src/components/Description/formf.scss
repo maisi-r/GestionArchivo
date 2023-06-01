@@ -4,9 +4,9 @@
     grid-template-rows: repeat(1,100px);
     grid-template-columns: repeat(2,1fr);
     grid-template-areas: 
-      "file1 file2"
-      "file3 file3"
-      "file4 file4 "
+      "file1 file1"
+      "file2 file2"
+      "file3 file3 "
       "file5 file5"
       "file6 file6"
     ;
@@ -15,6 +15,7 @@
 
 .file1 {
     grid-area: file1;
+   
   }
 
   .file2 {

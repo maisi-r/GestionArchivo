@@ -3,7 +3,7 @@ import "./header.scss";
 const Header = () => {
   return (
     <div className='header'>
-        <p>Gestión de Archivos Administrativos</p>
+        <p>Sistema de Gestión de Archivos Administrativos</p>
     </div>
   )
 }

@@ -116,6 +116,18 @@
   }
 }
 
+.editar{
+  background-color:#f8f32b !important;
+}
+
+.borrar {
+  background: #ae2029!important;
+}
+
+.ver {
+  background: #4040ff!important;
+}
+
 .actions__title {
   // background-color: $item-hover;
   padding: 15px;
@@ -130,15 +142,17 @@
 // }
 
 .Carga {
-  font-size: 1rem;
+  font-size: 1.2rem;
   button {
-    color: #040f36;
-    background: transparent;
-    margin: 0 5px;
+    color: #ffffff;
+    background: #25D366;
+    margin: 10px 0px;
     cursor: pointer;
+    border-color: transparent;
+    border-radius: 5px;
 
     svg {
-      font-size: 1.5rem;
+      font-size: 1rem;
       
     }
   }
@@ -149,8 +163,9 @@
   font-size: 1rem;
   border-radius: solid 1px;
   button {
-    color: #040f36;
+    color: #ffffff;
     background: transparent;
+    border-color: transparent;
     border-radius: 20px;
     margin: 0 5px;
     cursor: pointer;
