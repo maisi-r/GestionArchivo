@@ -35,13 +35,14 @@ const FileTable = () => {
   const columnsDoc = useMemo(
       () => [
             {
-              Header: 'Tipo de Documento',
+              Header: 'Nombre del documento',
               accessor: 'tipodocumento',
             },
             {
               Header: 'Descripción',
               accessor: 'descripcion',
             },
+            
           ],
       []
     );

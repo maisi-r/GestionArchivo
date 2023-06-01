@@ -129,12 +129,29 @@
 //   //text-align: center;
 // }
 
-.actions__icons {
+.Carga {
   font-size: 1rem;
   button {
     color: #040f36;
     background: transparent;
-    border: none;
+    margin: 0 5px;
+    cursor: pointer;
+
+    svg {
+      font-size: 1.5rem;
+      
+    }
+  }
+
+}
+
+.actions__icons {
+  font-size: 1rem;
+  border-radius: solid 1px;
+  button {
+    color: #040f36;
+    background: transparent;
+    border-radius: 20px;
     margin: 0 5px;
     cursor: pointer;
 

@@ -1,25 +1,47 @@
-import React from 'react';
+
+
+
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from "yup";
-import { useAddAditionaInformationFileMutation } from '../../store/apis/additionalInformationFileApi';
-import { useParams, useNavigate } from 'react-router-dom';
+import * as Yup from "yup"; 
+import { useAddFileMutation, useGetFileQuery, useGetFilesQuery, useUpdateFileMutation } from '../store/apis/fileApi/';
+ import { useGetAdditionalInformationFileQuery, useAddAditionaInformationFileMutation, useUpdateAditionaInformationFileMutation, useDeleteAditionaInformationFileMutation } from '../store/apis/additionalInformationFileApi/';
+import { useParams } from 'react-router-dom';
 import { parse, isDate } from "date-fns";
 import DatePicker from "react-datepicker";
+
+import { Navigate, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import "react-datepicker/dist/react-datepicker.css";
+import {  useSelector } from 'react-redux';
 
-const FormFile = () => {
-  const { id } = useParams();
+const FormEdit = () => {
+
+  const { id } = useParams()
+
+
+  let dataEdit = "";
+  const { data: initialValues, isLoadingadicional } = useGetAdditionalInformationFileQuery(id);
+  console.log(initialValues)
+  dataEdit = !isLoadingadicional ? initialValues?.additionalInformationFile : "";
+  const [updateEdit] = useUpdateAditionaInformationFileMutation();
+  const [addEdit] = useAddFileMutation();
+  const [startDate, setStartDate] = useState(null);
   const required = "El campo es requerido";
-  const [addInformation] = useAddAditionaInformationFileMutation();
   const navigate = useNavigate();
+console.log(dataEdit);
+  useEffect(() => {
+    if (initialValues) {
+      setStartDate(new Date(initialValues.date));
+    }
+  }, [initialValues]);
 
   function parseDateString(value, originalValue) {
     const parsedDate = isDate(originalValue)
       ? originalValue
       : parse(originalValue, "yyyy-MM-dd", new Date());
-
+  
     return parsedDate;
   }
 
@@ -29,53 +51,58 @@ const FormFile = () => {
       correlative: "",
       body: "",
       year: "",
-      date: new Date(),
+      date: Date.now(),
       initiator: "",
       issue: ""
     },
+
     validationSchema: Yup.object({
       number: Yup.number().required(required),
       correlative: Yup.number().required(required),
       year: Yup.number().required(required),
-      body: Yup.string().required(required),
-      date: Yup.date().nullable().transform(parseDateString).typeError("Al editar debe seleccionar nuevamente la fecha"),
+      body: Yup.number().required(required),
+      date: Yup.date().nullable().transform(parseDateString).typeError("Al editar debe seleccionar nuevamente la fecha"),   
       initiator: Yup.string().required(required),
       issue: Yup.string().required(required),
     }),
+
     onSubmit: async (values) => {
       try {
         console.log(values);
-        const result = await addInformation({ id: id, data: values });
-        console.log(result);
-        Swal.fire({
-          title: "Exito",
-          text: "Archivo guardado correctamente",
-          icon: "success",
-          timer: 3500
-        }).then(() => {
-          navigate(`/`);
-          formik.resetForm();
-        });
+        const responseedit = await updateEdit({ id: id, data: values }).unwrap();
+        Swal.fire({ title: "Exito", text: "Archivo editado correctamente", icon: "success", timer: 3500 });
+        console.log(responseedit);
+        navigate(`/archivos/`);
       } catch (error) {
         console.log(error);
       }
     },
   });
 
-  const {
-    handleSubmit,
-    handleChange,
-    handleBlur,
-    setFieldValue,
-    values,
-    errors,
-    touched
-  } = formik;
+  const { handleSubmit, handleChange, handleBlur, values, errors, touched } = formik;
+
+ 
+
+  formik.initialValues.number = dataEdit?.number|| "";
+  formik.initialValues.correlative = dataEdit?.correlative || "";
+  formik.initialValues.body = dataEdit?.body || "";
+  formik.initialValues.year = dataEdit?.year|| "";
+
+  
+  formik.initialValues.initiator = dataEdit?.initiator || "";
+  formik.initialValues.issue = dataEdit?.issue || "";
+
+  
+  // if (isLoading) {
+  //   return <div>Cargando...</div>;
+  // }
 
   return (
-    <div className='container'>
-      <h1>Carga Adicional</h1>
+    <>
+      <h1>Editar Carga Adicional</h1> 
+      <div className='container'>
       <div className="base-container">
+      
         <form onSubmit={handleSubmit} className="form">
           <div className='form-group item1'>
             <label htmlFor="number">Expediente N°</label>
@@ -96,7 +123,7 @@ const FormFile = () => {
           </div>
 
           <div className='form-group item2'>
-            <label htmlFor="correlative">N° Correlativo</label>
+            <label htmlFor="name">N° Correlativo</label>
             <input
               type="text"
               className={`input__light-${errors.correlative && touched.correlative ? 'warning' : 'success'}`}
@@ -158,10 +185,9 @@ const FormFile = () => {
               id="date"
               name="date"
               value={values.date}
-              onChange={(value) => {
-                setFieldValue('date', value)
-              }}
+              onChange={(value) => { formik.setFieldValue('date', value) }}
             />
+            {errors.date && touched.date && (<div className='text-red'><small className="text-red-600">{errors.date}</small></div>)}
             {errors.date && touched.date && (
               <div className='text-red'>
                 <small className="text-red-600">{errors.date}</small>
@@ -205,13 +231,18 @@ const FormFile = () => {
             )}
           </div>
 
-          <div className="form-group item8">
-            <button type="submit" className="btn">Nueva carga</button>
+          <div className='form-group'>
+            <button type="submit" className="button primary">{"Guardar"}</button>
+            <button type="button" className="button secondary" onClick={() => navigate(`/archivos/`)}>
+              Cancelar
+            </button>
           </div>
         </form>
       </div>
     </div>
+      </>
   );
 }
 
-export default FormFile;
+export default FormEdit;
+

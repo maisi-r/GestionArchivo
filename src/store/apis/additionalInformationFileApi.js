@@ -14,6 +14,12 @@ export const addtionalInformationFileApi = createApi({
     endpoints: (builder) => ({
 
         getAdditionalInformationFile: builder.query({
+            query: (id) => `/additional-information-file/${id}`,
+            providesTags: ["Additional"]
+
+        }),
+
+        getAdditionalInformationFiles: builder.query({
             query: () => '/additional-information-file',
             providesTags: ["Additional"]
         }),

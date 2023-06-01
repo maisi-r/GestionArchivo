@@ -22,7 +22,7 @@ const App = () => {
       <Header/>
       
       <Routes>
-        <Route path="/" element={<Login/>}/>
+        {/* <Route path="/" element={<Login/>}/> */}
         {/* <Route path="/welcome" element={<Welcome />} /> */}
 
         {/* <Route path="/admin/*" element={
@@ -43,7 +43,7 @@ const App = () => {
           </RequireAuth>
         } /> */}
         
-        <Route path="/archivos" element={<FileTable/>} />
+        <Route path="/" element={<FileTable/>} />
 
         <Route path="/archivos/descripcion/:id" element={ <Description /> } />
 

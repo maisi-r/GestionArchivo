@@ -1,17 +1,18 @@
+import { BrowserRouter as Router, Link, } from 'react-router-dom';
 import { useTable, usePagination, useGlobalFilter } from 'react-table';
 import style from "./table.scss";
-import { BiPencil, BiTrash, BiChevronsLeft, BiLineChart, BiChevronsRight, BiChevronLeft, BiChevronRight, BiPlusCircle, BiBookmarkAltPlus, BiZoomIn } from "react-icons/bi";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { BiArrowBack, BiPencil, BiTrash, BiChevronsLeft, BiLineChart, BiChevronsRight, BiChevronLeft, BiChevronRight, BiPlusCircle, BiBookmarkAltPlus, BiZoomIn } from "react-icons/bi";
+import "bootstrap/dist/css/bootstrap.css";
 import { motion } from "framer-motion";
 import React, { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { editOn } from '../../store/slices/idEditSlice';
-import { Link, useNavigate } from 'react-router-dom';
 import { useDeleteFileMutation } from '../../store/apis/fileApi';
 import { GlobalFilter } from '../GlobalFilter';
 
-const Table = ({ columns, data, handleEdit, totalItems, handleDownload, table, typeUser = false }) => {
+
+const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, typeUser = false }) => {
   const dispatch = useDispatch();
   const [deleteFile] = useDeleteFileMutation();
 
@@ -65,144 +66,125 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload, table, t
     }).then((res) => res.json());
   }
 
-  const navigate = useNavigate();
-
-  const handleClick = (event) => {
-    event.preventDefault();
-    navigate("/carga");
+  // const handleClick = (event) => {
+  //   event.preventDefault();
+  //   navigate("/carga");
+  // };
+  const handleNew = () => {
   };
 
-  function handleDispatchId(id) {
+  const handleDispatchId = (id) => {
+    handleEdit();
+    
     dispatch(editOn(id));
-  }
+  };
+
 
   useEffect(() => {
-    setPageSize(Number(10));
-  }, []);
+    setPageSize(Number(8));
+  }, [])
+  
 
   return (
     <>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+      <div><GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
 
-      {!typeUser && (
-        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} onClick={handleClick} className={style.table__headerButton}>
-          <BiPlusCircle />Nueva Carga
-        </motion.button>
-      )}
-                    
-      
+      <div className='Carga'>
+        {!typeUser && (
+          <Link to="/carga" onClick={handleNew} >
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} className={style.table__headerButton}>
+              <BiPlusCircle />Nueva Carga
+            </motion.button>
+          </Link>
+        )}
+      </div>
+
       <table className='table table-bordered' {...getTableProps()}>
-      
-        
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
                 <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                
               ))}
               <th className={style.actions__title}>Acciones</th>
             </tr>
-            
-            
           ))}
-          
         </thead>
         <tbody {...getTableBodyProps()}>
           {page.map((row, i) => {
             prepareRow(row)
             return (
               <tr {...row.getRowProps()}>
-                
-                
                 {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}
-                  </td>
-                  
-                  
+                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 })}
-
-                                        
-                                        <th className={style.actions__icons}>
-                                        <Link to={`/editar/${row.original.id}`}>
-                                            <motion.button
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 1.02 }}
-                                                onClick={ () => { handleDispatchId(row.original.id); handleEdit()} }
-                                            >
-                                                <BiPencil />
-                                            </motion.button>
-                                            </Link>
-                                            <motion.button
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 1.02 }}
-                                                onClick={() => {handleDelete(row.original.id) }}
-                                            >
-                                                <BiTrash />
-                                            </motion.button>
-
-
-                                           {console.log(row.original)}
-                                            <Link to={`/archivos/descripcion/${row.original.id}`}>
-                                              <motion.button
-                                              whileHover={{ scale: 1.05 }}
-                                              whileTap={{ scale: 1.02 }}
-                                              >
-                                                <BiZoomIn />
-                                              </motion.button>
-                                            </Link>
-                                            
-                                            
-                                            
-                                            
-                                            
-                                        </th>
-                                    
-                
+                <th className="actions__icons">
+                  
+                <Link to={`/editar/${row.original.id} `}>
+                  
+                  
+  <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 1.02 }}
+  >
+    <BiPencil />
+  </motion.button>
+</Link>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 1.02 }}
+                    onClick={() => { handleDelete(row.original.id) }}
+                  >
+                    <BiTrash />
+                  </motion.button>
+                  {console.log(row.original)}
+                  <Link to={`/archivos/descripcion/${row.original.id}`}>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 1.02 }}
+                    >
+                      <BiZoomIn />
+                    </motion.button>
+                  </Link>
+                </th>
               </tr>
-              
-              
-              
             )
           })}
         </tbody>
       </table>
-      {/* PAGINATION */}
-      <div className={style.pagination}>
 
-      <span>
-          Página{' '}
-          <strong>
+        <div className="pagination">
+          <span>
+            Página{' '}
+            <strong>
               {pageIndex + 1} de {pageOptions.length}
-          </strong>{' '}
-      </span>
+            </strong>{' '}
+          </span>
 
-      <div className={style.pagination__icons}>
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-              { <BiChevronsLeft /> }
-          </motion.button>{' '}
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} onClick={() => previousPage()} disabled={!canPreviousPage}>
-              { <BiChevronLeft /> }
-          </motion.button>{' '}
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} onClick={() => nextPage()} disabled={!canNextPage}>
-              { <BiChevronRight /> }
-          </motion.button>{' '}
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-              { <BiChevronsRight /> }
-          </motion.button>{' '}
-      </div>
+          <div className="pagination__icon">
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {<BiChevronsLeft />}
+            </motion.button>{' '}
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} onClick={() => previousPage()} disabled={!canPreviousPage}>
+              {<BiChevronLeft />}
+            </motion.button>{' '}
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} onClick={() => nextPage()} disabled={!canNextPage}>
+              {<BiChevronRight />}
+            </motion.button>{' '}
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+              {<BiChevronsRight />}
+            </motion.button>{' '}
+          </div>
 
-      <span>
-          Total items{' '}
-          <strong>
+          <span>
+            Total items{' '}
+            <strong>
               {totalItems}
-          </strong>{' '}
-      </span>{' '}
-  </div>
-  
-  </>
-    )
+            </strong>{' '}
+          </span>
+        </div>
+      </>
+  )
 }
-
 
 export default Table;
