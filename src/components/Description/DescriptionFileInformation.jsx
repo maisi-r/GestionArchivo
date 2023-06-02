@@ -3,7 +3,7 @@ import Table from "../FileTable/Table";
 import { BiZoomIn } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import { useGetFileQuery } from "../../store/apis/fileApi";
-import SectionContainer from "../container/SectionContainer/SectionContainer";
+import SectionContainer from "../Container/SectionContainer/SectionContainer";
 
 
 const DescriptionFile = () => {

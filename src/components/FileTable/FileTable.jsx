@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SectionContainer from "../container/SectionContainer/SectionContainer";
+import SectionContainer from "../Container/SectionContainer/SectionContainer";
 
 
 const FileTable = () => {

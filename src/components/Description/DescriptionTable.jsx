@@ -5,7 +5,7 @@ import PdfMostrar from '../Pdfmostrar';
 import { useParams } from 'react-router-dom';
 import { useGetFileQuery } from '../../store/apis/fileApi';
 import "./descriptionFile.scss";
-import SectionContainer from '../container/SectionContainer/SectionContainer';
+import SectionContainer from '../Container/SectionContainer/SectionContainer';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const Description = () => {
