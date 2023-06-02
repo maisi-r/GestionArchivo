@@ -211,6 +211,11 @@
   font-size: 1.2rem!important;
 }
 
+.table > tbody {
+  vertical-align: middle;
+}
+
+
 // /*   color variables */
 // $clr-primary: #81d4fa;
 // $clr-primary-light: #e1f5fe;

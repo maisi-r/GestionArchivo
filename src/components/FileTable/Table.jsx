@@ -104,9 +104,9 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
       <table className='table table-bordered' {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <tr  {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                <th  {...column.getHeaderProps()}>{column.render('Header')}</th>
               ))}
               <th className={style.actions__title}>Acciones</th>
             </tr>

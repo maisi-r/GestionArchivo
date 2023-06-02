@@ -15,13 +15,24 @@ import SectionContainer from "../container/SectionContainer/SectionContainer";
 
 const FileTable = () => {
   const { data: dataDoc, isLoading: isLoadingDoc } = useGetFilesQuery();
-
+  console.log(dataDoc);
+  const formatNewLines = (text) => {
+    return text.split("\n").map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
   const dataTableDoc = () =>
-    dataDoc?.files?.map((item) => ({
-      tipodocumento: item.name,
-      descripcion: item.description || "",
-      id: item._id,
-    }));
+  dataDoc?.files?.map((item) => ({
+    tipodocumento: item.name,
+    descripcion: item.description || "",
+    numero: item.additionalInformation?.number || "",
+    iniciador: item.additionalInformation?.initiator || "",
+    asunto: item.additionalInformation?.issue || "",
+    id: item._id,
+  }));
 
   const columnsDoc = useMemo(
     () => [
@@ -30,31 +41,43 @@ const FileTable = () => {
         accessor: "tipodocumento",
       },
       {
-        Header: "Descripción",
-        accessor: "descripcion",
+        Header: "N°",
+        accessor: "numero",
+      },
+      {
+        Header: "Iniciador",
+        accessor: "iniciador",
+      },
+      {
+        Header: "Asunto",
+        accessor: "asunto",
       },
     ],
     []
+
   );
 
   return (
     <SectionContainer>
       <h3>Documentos</h3>
       <div className="containerInput"></div>
-      {!isLoadingDoc && (
-        <Table
-          columns={columnsDoc}
-          data={dataTableDoc()}
-          icon={<BiGroup />}
-          tableType="documentos"
-          totalItems={dataDoc.totalItems}
-          handleNew={() => openModalUser("new")}
-          handleEdit={() => openModalUser("edit")}
-        />
-      )}
+      <div className="table-container">
+        {!isLoadingDoc && (
+          <Table
+            columns={columnsDoc}
+            data={dataTableDoc()}
+            icon={<BiGroup />}
+            tableType="documentos"
+            totalItems={dataDoc.totalItems}
+            handleNew={() => openModalUser("new")}
+            handleEdit={() => openModalUser("edit")}
+          />
+        )}
+      </div>
     </SectionContainer>
   );
 };
+
 
 export default FileTable;
 

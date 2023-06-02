@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { parse, isDate } from "date-fns";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
+import "./edit.scss"
 
 
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -31,7 +32,7 @@ const FormEdit = () => {
 
   console.log(additionalInformationId);
 
-  const updateFileMutation = useUpdateFileMutation();
+  const [updateFileMutation] = useUpdateFileMutation();
 
   function parseDateString(value, originalValue) {
     const parsedDate = isDate(originalValue)
@@ -89,9 +90,12 @@ const FormEdit = () => {
 
     try {
       console.log(values);
-      const responseedit = await updateEdit({ id: additionalInformationId, data: updatedFile }).unwrap();
+      const responseedit = await updateFileMutation({ id: id, data: values }).unwrap();
+      const responseedit2 = await updateEdit({ id: additionalInformationId, data: values }).unwrap();
+
       Swal.fire({ title: "Exito", text: "Archivo editado correctamente", icon: "success", timer: 3500 });
       console.log(responseedit);
+      console.log(responseedit2);
       navigate(`/`); // Corrección: cambia "history(`/archivos/`)" a "history.push(`/archivos/`)"
     } catch (error) {
       console.log(error);
@@ -114,7 +118,7 @@ const FormEdit = () => {
         <div className="form-container">
           <h3>Editar Archivo</h3>
           <form onSubmit={handleSubmit}>
-            <div className='form-group item1'>
+            <div className='form-group file1'>
               <label htmlFor="name">Nombre del documento</label>
               <input
                 type="text"
@@ -132,16 +136,17 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group item3'>
+            <div className='form-group file2'>
               <label htmlFor="description">Descripción</label>
-              <textarea
+              <input
+              type="text"
                 className={`textarea__light-${errors.description && touched.description ? 'warning' : 'success'}`}
                 placeholder="Ingrese la descripción"
                 value={values.description}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 name="description"
-              ></textarea>
+              ></input>
               {errors.description && touched.description && (
                 <div className='text-red'>
                   <small className="text-red-600">{errors.description}</small>
@@ -149,7 +154,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group item1'>
+            <div className='form-group file3'>
               <label htmlFor="number">Número</label>
               <input
                 type="text"
@@ -167,7 +172,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group item2'>
+            <div className='form-group file4'>
               <label htmlFor="correlative">Correlativo</label>
               <input
                 type="text"
@@ -185,7 +190,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group item3'>
+            <div className='form-group file5'>
               <label htmlFor="year">Año</label>
               <input
                 type="text"
@@ -203,7 +208,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group item3'>
+            <div className='form-group file6'>
               <label htmlFor="date">Fecha</label>
               <DatePicker
                 selected={values.date}
@@ -220,16 +225,17 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group item3'>
+            <div className='form-group file7'>
               <label htmlFor="body">Cuerpo</label>
-              <textarea
-                className={`textarea__light-${errors.body && touched.body ? 'warning' : 'success'}`}
+              <input
+              type="text"
+              className={`input__light-${errors.year && touched.year ? 'warning' : 'success'}`}
                 placeholder="Ingrese el cuerpo"
                 value={values.body}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 name="body"
-              ></textarea>
+              ></input>
               {errors.body && touched.body && (
                 <div className='text-red'>
                   <small className="text-red-600">{errors.body}</small>
@@ -237,7 +243,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group item3'>
+            <div className='form-group file8'>
               <label htmlFor="initiator">Iniciador</label>
               <input
                 type="text"
@@ -255,7 +261,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group item3'>
+            <div className='form-group file9'>
               <label htmlFor="issue">Asunto</label>
               <input
                 type="text"
@@ -272,10 +278,19 @@ const FormEdit = () => {
                 </div>
               )}
             </div>
-
-            <button type="submit" className="button__light-primary">
+            
+            <div className="form-group file10"> 
+            <button type="submit" className="btn">
               Guardar
             </button>
+            </div>
+
+            <div className="form-group file11">         
+                    <button onClick={() => navigate(-1)} className="btn">Cancelar</button>
+                    </div>
+            
+
+            
           </form>
         </div>
       </div>
