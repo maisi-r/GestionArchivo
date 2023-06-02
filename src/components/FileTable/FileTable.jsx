@@ -13,6 +13,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SectionContainer from "../container/SectionContainer/SectionContainer";
 
+
 const FileTable = () => {
   const { data: dataDoc, isLoading: isLoadingDoc } = useGetFilesQuery();
   console.log(dataDoc);
