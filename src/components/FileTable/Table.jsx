@@ -182,7 +182,7 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
           </div>
 
           <span>
-            Total items{' '}
+            Total Documentos{' '}
             <strong>
               {totalItems}
             </strong>{' '}

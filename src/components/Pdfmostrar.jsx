@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Document, Page } from 'react-pdf';
 import { Button } from 'reactstrap';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import "../components/Pdfmostrar.scss";
 
 function PdfMostrar(data) {
   const [numPages, setNumPages] = useState(null);
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const handleDownload = async () => {
     const url = URL.createObjectURL(file);
@@ -59,8 +61,13 @@ function PdfMostrar(data) {
           )}
         </div>
       </div>
-      <div>
-        {file && <button onClick={handleDownload}>Descargar PDF</button>}
+      <div className='row'>
+      <div className="col-4"> 
+        {file && <button className="btn" onClick={handleDownload}>Descargar PDF</button>}
+      </div>
+      <div className="col-4">
+      <button onClick={() => navigate(-1)} className="btn">Volver</button>
+      </div>
       </div>
     </div>
   );

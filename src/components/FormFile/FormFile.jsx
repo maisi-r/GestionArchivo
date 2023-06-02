@@ -62,7 +62,7 @@ const FormFile = () =>  {
             <div className="base-container">
                 <form onSubmit={handleSubmit(onSubmit)} className="formfile">
                     <div className="form-group file1">
-                        <label htmlFor='name'>Nombre</label> 
+                        <label htmlFor='name'>Nombre del Documento</label> 
                         <input {...register("name")} />
                     </div>
 

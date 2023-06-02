@@ -1,12 +1,9 @@
 import React, { useMemo } from "react";
-
 import Table from "../FileTable/Table";
 import { BiZoomIn } from "react-icons/bi";
-import "./form.scss"
-import "./formf.scss"
 import { useParams } from "react-router-dom";
 import { useGetFileQuery } from "../../store/apis/fileApi";
-import SectionContainer from "../Container/SectionContainer/SectionContainer";
+
 
 const DescriptionFile = () => {
   const { id } = useParams();
@@ -21,7 +18,7 @@ const DescriptionFile = () => {
 
       {!isLoading && (
         <div className="container">
-          <div className="form-group item1">
+          <div className="form-group file1">
             <p>{data.file.name}</p>
           </div>
           <div className="form-group item2">
