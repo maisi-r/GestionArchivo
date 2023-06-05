@@ -6,10 +6,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { parse, isDate } from "date-fns";
 import DatePicker from "react-datepicker";
 import Swal from 'sweetalert2';
+import "./formf.scss"
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const FormFile = () => {
+const FormFileInformation = () => {
   const { id } = useParams();
   const required = "El campo es requerido";
   const [addInformation] = useAddAditionaInformationFileMutation();
@@ -35,7 +36,7 @@ const FormFile = () => {
     },
     validationSchema: Yup.object({
       number: Yup.number().required(required),
-      correlative: Yup.number().required(required),
+      correlative: Yup.string().required(required),
       year: Yup.number().required(required),
       body: Yup.string().required(required),
       date: Yup.date().nullable().transform(parseDateString).typeError("Al editar debe seleccionar nuevamente la fecha"),
@@ -53,7 +54,7 @@ const FormFile = () => {
           icon: "success",
           timer: 3500
         }).then(() => {
-          navigate(`/`);
+          navigate(`/archivos`);
           formik.resetForm();
         });
       } catch (error) {
@@ -75,9 +76,9 @@ const FormFile = () => {
   return (
     <div className='container'>
       <h1>Carga Adicional</h1>
-      <div className="base-container">
+      <div className="formf-container">
         <form onSubmit={handleSubmit} className="form">
-          <div className='form-group item1'>
+          <div className='formf-group item1'>
             <label htmlFor="number">Expediente N°</label>
             <input
               type="text"
@@ -95,7 +96,7 @@ const FormFile = () => {
             )}
           </div>
 
-          <div className='form-group item2'>
+          <div className='formf-group item2'>
             <label htmlFor="correlative">N° Correlativo</label>
             <input
               type="text"
@@ -113,7 +114,25 @@ const FormFile = () => {
             )}
           </div>
 
-          <div className='form-group item4'>
+          <div className='formf-group item3'>
+            <label htmlFor="year">Año</label>
+            <input
+              type="text"
+              className={`input__light-${errors.year && touched.year ? 'warning' : 'success'}`}
+              placeholder="Ingrese el año"
+              value={values.year}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              name="year"
+            />
+            {errors.year && touched.year && (
+              <div className='text-red'>
+                <small className="text-red-600">{errors.year}</small>
+              </div>
+            )}
+          </div>
+
+          <div className='formf-group item4'>
             <label htmlFor="body">Cuerpo</label>
             <input
               type="text"
@@ -131,25 +150,9 @@ const FormFile = () => {
             )}
           </div>
 
-          <div className='form-group item3'>
-            <label htmlFor="year">Año</label>
-            <input
-              type="text"
-              className={`input__light-${errors.year && touched.year ? 'warning' : 'success'}`}
-              placeholder="Ingrese el nombre"
-              value={values.year}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              name="year"
-            />
-            {errors.year && touched.year && (
-              <div className='text-red'>
-                <small className="text-red-600">{errors.year}</small>
-              </div>
-            )}
-          </div>
+          
 
-          <div className='form-group item7'>
+          <div className='formf-group item5'>
             <label htmlFor="date">Fecha</label>
             <DatePicker
               className={`input__light-${errors.date && touched.date ? 'warning' : 'success'}`}
@@ -169,7 +172,7 @@ const FormFile = () => {
             )}
           </div>
 
-          <div className='form-group item5'>
+          <div className='formf-group item6'>
             <label htmlFor="initiator">Iniciador</label>
             <input
               type="text"
@@ -187,7 +190,7 @@ const FormFile = () => {
             )}
           </div>
 
-          <div className='form-group item6'>
+          <div className='formf-group item7'>
             <label htmlFor="issue">Asunto</label>
             <input
               type="text"
@@ -205,7 +208,7 @@ const FormFile = () => {
             )}
           </div>
 
-          <div className="form-group item8">
+          <div className="formf-group item8">
             <button type="submit" className="btn">Nueva carga</button>
           </div>
         </form>
@@ -214,4 +217,4 @@ const FormFile = () => {
   );
 }
 
-export default FormFile;
+export default FormFileInformation;

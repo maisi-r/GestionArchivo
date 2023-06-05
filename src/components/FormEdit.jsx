@@ -42,6 +42,20 @@ const FormEdit = () => {
     return parsedDate;
   }
 
+  useEffect(() => {
+    if (data) {
+      setStartDate(new Date(data.date));
+      formik.setFieldValue('name', data?.file?.name || '');
+      formik.setFieldValue('description', data?.file?.description || '');
+      formik.setFieldValue('number', data?.file?.additionalInformation?.number || '');
+      formik.setFieldValue('correlative', data?.file?.additionalInformation?.correlative || '');
+      formik.setFieldValue('year', data?.file?.additionalInformation?.year || '');
+      formik.setFieldValue('body', data?.file?.additionalInformation?.body || '');
+      formik.setFieldValue('initiator', data?.file?.additionalInformation?.initiator || '');
+      formik.setFieldValue('issue', data?.file?.additionalInformation?.issue || '');
+    }
+  }, [data]);
+
   
 
   const validationSchema = Yup.object().shape({
@@ -68,39 +82,40 @@ const FormEdit = () => {
     issue: data?.file?.additionalInformation?.issue || '',
   };
 
+
+
   const onSubmit = async (values) => {
     const additionalInformation = {
       _id: additionalInformationId,
-      number: parseInt(values.number), // Convierte a número
-      correlative: parseInt(values.correlative), // Convierte a número
-      year: values.year.toString(), // Convierte a cadena de texto
+      number: values.number,
+      correlative: values.correlative,
+      year: values.year.toString(),
       date: values.date,
-      body: parseInt(values.body), // Convierte a número
+      body: parseInt(values.body),
       initiator: values.initiator,
       issue: values.issue,
     };
-
+  
     const updatedFile = {
       name: values.name,
       system: values.system,
       description: values.description,
       additionalInformation: additionalInformation,
     };
-    
-
+  
     try {
-      console.log(values);
-      const responseedit = await updateFileMutation({ id: id, data: values }).unwrap();
-      const responseedit2 = await updateEdit({ id: additionalInformationId, data: values }).unwrap();
-
+      const responseedit = await updateFileMutation({ id: id, data: updatedFile }).unwrap();
+      const responseedit2 = await updateEdit({ id: additionalInformationId, data: additionalInformation }).unwrap();
+  
       Swal.fire({ title: "Exito", text: "Archivo editado correctamente", icon: "success", timer: 3500 });
       console.log(responseedit);
       console.log(responseedit2);
-      navigate(`/`); // Corrección: cambia "history(`/archivos/`)" a "history.push(`/archivos/`)"
+      navigate(`/archivos`); 
     } catch (error) {
       console.log(error);
     }
   };
+
 
 
 
@@ -115,10 +130,11 @@ const FormEdit = () => {
   return (
     <>
       <div className="container">
-        <div className="form-container">
-          <h3>Editar Archivo</h3>
+      <h3>Editar Archivo</h3>
+        <div className="edit-container">
+        
           <form onSubmit={handleSubmit}>
-            <div className='form-group file1'>
+            <div className='edit-group item1'>
               <label htmlFor="name">Nombre del documento</label>
               <input
                 type="text"
@@ -136,7 +152,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group file2'>
+            <div className='edit-group item2'>
               <label htmlFor="description">Descripción</label>
               <input
               type="text"
@@ -154,7 +170,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group file3'>
+            <div className='edit-group item3'>
               <label htmlFor="number">Número</label>
               <input
                 type="text"
@@ -172,7 +188,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group file4'>
+            <div className='edit-group item4'>
               <label htmlFor="correlative">Correlativo</label>
               <input
                 type="text"
@@ -190,7 +206,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group file5'>
+            <div className='form-group item5'>
               <label htmlFor="year">Año</label>
               <input
                 type="text"
@@ -208,16 +224,17 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group file6'>
+            <div className='edit-group item6'>
               <label htmlFor="date">Fecha</label>
-              <DatePicker
-                selected={values.date}
-                onChange={(value) => formik.setFieldValue('date', value)}
-                onBlur={handleBlur}
-                className={`input__light-${errors.date && touched.date ? 'warning' : 'success'}`}
-                dateFormat="yyyy-MM-dd"
-                name="date"
-              />
+              <input
+    type="date"
+    className={`input__light-${errors.date && touched.date ? 'warning' : 'success'}`}
+    placeholder="Ingrese la fecha"
+    value={values.date}
+    onBlur={handleBlur}
+    onChange={handleChange}
+    name="date"
+  />
               {errors.date && touched.date && (
                 <div className='text-red'>
                   <small className="text-red-600">{errors.date}</small>
@@ -225,7 +242,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group file7'>
+            <div className='edit-group item7'>
               <label htmlFor="body">Cuerpo</label>
               <input
               type="text"
@@ -243,7 +260,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group file8'>
+            <div className='edit-group item8'>
               <label htmlFor="initiator">Iniciador</label>
               <input
                 type="text"
@@ -261,7 +278,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='form-group file9'>
+            <div className='edit-group item9'>
               <label htmlFor="issue">Asunto</label>
               <input
                 type="text"
@@ -279,19 +296,20 @@ const FormEdit = () => {
               )}
             </div>
             
-            <div className="form-group file10"> 
+            <div className="edit-group item10"> 
             <button type="submit" className="btn">
               Guardar
             </button>
             </div>
 
-            <div className="form-group file11">         
-                    <button onClick={() => navigate(-1)} className="btn">Cancelar</button>
-                    </div>
+            <div className="edit-group item11">
+    <button onClick={() => navigate('/archivos')} className="btn">Cancelar</button>
+</div>
             
 
             
           </form>
+          
         </div>
       </div>
     </>

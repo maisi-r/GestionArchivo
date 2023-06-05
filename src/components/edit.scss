@@ -1,4 +1,4 @@
-.base-container {
+.edit-container {
  
     display: flex;
     min-height: 100vh;;
@@ -29,11 +29,16 @@
     grid-template-rows: repeat(5,100px);
     grid-template-columns: repeat(4,1fr);
     grid-template-areas: 
-      "item1 item1 item1 item1"
-      "item2 item2 item2 item2"
-      "item3 item3 item3 item3"
-      "item6 item6 item6 item6"
-      "item8 item8 . . "
+      "item1 item1 "
+      "item2 item2 "
+      "item3 item3 "
+      "item4 item4 "
+      "item5 item5 "
+      "item6 item6 "
+      "item7 item7 "
+      "item8 item8 "
+      "item9 item9 "
+      "item10 item11 "
     ;
     gap: 20px;
 
@@ -55,12 +60,10 @@
 
     .item5 {
       grid-area: item5;
-      width: 50%;
     }
 
     .item6 {
       grid-area: item6;
-      width: 50%;
     }
 
     .item7 {
@@ -71,11 +74,23 @@
       grid-area: item8;
     }
 
+    .item9 {
+      grid-area: item9;
+    }
+
+    .item10 {
+      grid-area: item10;
+    }
+
+    .item11 {
+      grid-area: item11;
+    }
+
 
     
   }
 
-  .formfile {
+  .editfile {
     display: grid;
     width: 50%;
     grid-template-rows: repeat(1,100px);
@@ -118,11 +133,7 @@
   
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items:flex-start;
+.edit-group {
   label {
     font-size: 20px;
   }

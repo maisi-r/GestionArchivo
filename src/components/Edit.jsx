@@ -99,9 +99,11 @@ console.log(dataEdit);
 
   return (
     <>
-      <h1>Editar Carga Adicional</h1> 
+      
       <div className='container'>
-      <div className="base-container">
+      
+      <div className="edit-container">
+        
       
         <form onSubmit={handleSubmit} className="form">
           <div className='form-group item1'>
