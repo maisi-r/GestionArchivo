@@ -3,8 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { useAddAditionaInformationFileMutation } from '../../store/apis/additionalInformationFileApi';
 import { useParams, useNavigate } from 'react-router-dom';
-import { parse, isDate } from "date-fns";
-import DatePicker from "react-datepicker";
+import { parse, isDate, format } from "date-fns";
 import Swal from 'sweetalert2';
 import "./formf.scss"
 
@@ -19,7 +18,7 @@ const FormFileInformation = () => {
   function parseDateString(value, originalValue) {
     const parsedDate = isDate(originalValue)
       ? originalValue
-      : parse(originalValue, "yyyy-MM-dd", new Date());
+      : parse(originalValue, "dd-MM-yyyy", new Date());
 
     return parsedDate;
   }
@@ -43,6 +42,7 @@ const FormFileInformation = () => {
       initiator: Yup.string().required(required),
       issue: Yup.string().required(required),
     }),
+
     onSubmit: async (values) => {
       try {
         console.log(values);
@@ -72,6 +72,14 @@ const FormFileInformation = () => {
     errors,
     touched
   } = formik;
+
+  const handleDateChange = (event) => {
+    const inputValue = event.target.value;
+    const parsedDate = parse(inputValue, "dd-MM-yyyy", new Date());
+    setFieldValue("date", isDate(parsedDate) ? parsedDate : null);
+  };
+
+
 
   return (
     <div className='container'>
@@ -151,19 +159,16 @@ const FormFileInformation = () => {
           </div>
 
           
-
           <div className='formf-group item5'>
             <label htmlFor="date">Fecha</label>
-            <DatePicker
+            <input
+              type="text"
               className={`input__light-${errors.date && touched.date ? 'warning' : 'success'}`}
-              label="Fecha de inicio"
-              selected={values.date}
-              id="date"
+              placeholder="Ingrese la fecha (dd-MM-yyyy)"
+              value={values.date ? format(values.date, "dd-MM-yyyy") : ""}
+              onBlur={handleBlur}
+              onChange={handleDateChange}
               name="date"
-              value={values.date}
-              onChange={(value) => {
-                setFieldValue('date', value)
-              }}
             />
             {errors.date && touched.date && (
               <div className='text-red'>

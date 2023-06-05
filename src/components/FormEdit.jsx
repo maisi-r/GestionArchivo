@@ -8,6 +8,7 @@ import { parse, isDate } from "date-fns";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import "./edit.scss"
+import { v4 as uuid } from 'uuid';
 
 
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -23,6 +24,14 @@ const FormEdit = () => {
   const [updateEdit] = useUpdateAditionaInformationFileMutation();
   const additionalInformationId = data?.file?.additionalInformation?._id;
   const [startDate, setStartDate] = useState(null);
+  const [additionalInformation, setAdditionalInformation] = useState(null);
+
+  useEffect(() => {
+    if (data) {
+      setStartDate(new Date(data.date));
+      setAdditionalInformation(data.file?.additionalInformation || null);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (data) {
@@ -59,6 +68,8 @@ const FormEdit = () => {
 
   
 
+  
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('El nombre es obligatorio'),
     description: Yup.string().required('La descripción es obligatoria'),
@@ -75,45 +86,79 @@ const FormEdit = () => {
   const initialValues = {
     name: data?.file?.name || '',
     description: data?.file?.description || '',
-    number: data?.file?.additionalInformation?.number || '',
-    correlative: data?.file?.additionalInformation?.correlative || '',
-    year: data?.file?.additionalInformation?.year || '',
-    body: data?.file?.additionalInformation?.body || '',
-    initiator: data?.file?.additionalInformation?.initiator || '',
-    issue: data?.file?.additionalInformation?.issue || '',
+    number: additionalInformation ? additionalInformation.number : '',
+    correlative: additionalInformation ? additionalInformation.correlative : '',
+    year: additionalInformation ? additionalInformation.year : '',
+    body: additionalInformation ? additionalInformation.body : '',
+    initiator: additionalInformation ? additionalInformation.initiator : '',
+    issue: additionalInformation ? additionalInformation.issue : '',
   };
 
 
-
   const onSubmit = async (values) => {
-    const additionalInformation = {
-      _id: additionalInformationId,
-      number: values.number,
-      correlative: values.correlative,
-      year: values.year.toString(),
-      date: values.date,
-      body: parseInt(values.body),
-      initiator: values.initiator,
-      issue: values.issue,
-    };
+    // Verificar si additionalInformationId es null
+    if (additionalInformationId !== null) {
+      const updatedAdditionalInformation = {
+        id: additionalInformationId,
+        number: values.number,
+        correlative: values.correlative,
+        year: values.year.toString(),
+        date: values.date,
+        body: parseInt(values.body),
+        initiator: values.initiator,
+        issue: values.issue,
+      };
   
-    const updatedFile = {
-      name: values.name,
-      system: values.system,
-      description: values.description,
-      additionalInformation: additionalInformation,
-    };
+      const updatedFile = {
+        name: values.name,
+        system: values.system,
+        description: values.description,
+        additionalInformation: updatedAdditionalInformation,
+      };
   
-    try {
-      const responseedit = await updateFileMutation({ id: id, data: updatedFile }).unwrap();
-      const responseedit2 = await updateEdit({ id: additionalInformationId, data: additionalInformation }).unwrap();
+      try {
+        const responseedit = await updateFileMutation({ id: id, data: updatedFile }).unwrap();
+        const responseedit2 = await updateEdit({ id: additionalInformationId, data: updatedAdditionalInformation }).unwrap();
   
-      Swal.fire({ title: "Exito", text: "Archivo editado correctamente", icon: "success", timer: 3500 });
-      console.log(responseedit);
-      console.log(responseedit2);
-      navigate(`/archivos`); 
-    } catch (error) {
-      console.log(error);
+        Swal.fire({ title: "Exito", text: "Archivo editado correctamente", icon: "success", timer: 3500 });
+        console.log(responseedit);
+        console.log(responseedit2);
+        navigate(`/archivos`);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      // Manejar el caso en el que additionalInformationId sea null
+      const newAdditionalInformationId = uuid(); // Generar un nuevo ID único
+      const newAdditionalInformation = {
+        id: newAdditionalInformationId,
+        number: values.number,
+        correlative: values.correlative,
+        year: values.year.toString(),
+        date: values.date,
+        body: parseInt(values.body),
+        initiator: values.initiator,
+        issue: values.issue,
+      };
+  
+      const updatedFile = {
+        name: values.name,
+        system: values.system,
+        description: values.description,
+        additionalInformation: newAdditionalInformation,
+      };
+  
+      try {
+        const responseedit = await updateFileMutation({ id: id, data: updatedFile }).unwrap();
+        const responseedit2 = await createEdit({ data: newAdditionalInformation }).unwrap();
+  
+        Swal.fire({ title: "Exito", text: "Archivo editado correctamente", icon: "success", timer: 3500 });
+        console.log(responseedit);
+        console.log(responseedit2);
+        navigate(`/archivos`);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

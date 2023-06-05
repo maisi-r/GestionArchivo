@@ -24,7 +24,9 @@ const Login = () => {
         setLoading(false);
         if (
           (correo === "Marianela" && contraseña === "Marianela") ||
-          (correo === "Veronica" && contraseña === "Veronica")
+          (correo === "Veronica" && contraseña === "Veronica") ||
+          (correo === "Facundo" && contraseña === "Facundo")
+
         ) {
           setMensaje("");
           setUsuarioLogeado(correo);
