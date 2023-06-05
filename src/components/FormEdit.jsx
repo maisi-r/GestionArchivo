@@ -37,14 +37,13 @@ const FormEdit = () => {
   function parseDateString(value, originalValue) {
     const parsedDate = isDate(originalValue)
       ? originalValue
-      : parse(originalValue, "yyyy-MM-dd", new Date());
+      : parse(originalValue, "dd-MM-yyyy", new Date());
   
     return parsedDate;
   }
 
   useEffect(() => {
     if (data) {
-      setStartDate(new Date(data.date));
       formik.setFieldValue('name', data?.file?.name || '');
       formik.setFieldValue('description', data?.file?.description || '');
       formik.setFieldValue('number', data?.file?.additionalInformation?.number || '');
@@ -53,6 +52,8 @@ const FormEdit = () => {
       formik.setFieldValue('body', data?.file?.additionalInformation?.body || '');
       formik.setFieldValue('initiator', data?.file?.additionalInformation?.initiator || '');
       formik.setFieldValue('issue', data?.file?.additionalInformation?.issue || '');
+  
+      setStartDate(new Date(data.date));
     }
   }, [data]);
 

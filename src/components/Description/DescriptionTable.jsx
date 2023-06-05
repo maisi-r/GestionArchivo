@@ -12,6 +12,9 @@ const Description = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetFileQuery(id);
   console.log(data)
+
+  
+
   return (
     <SectionContainer>
       <h3>Detalle del documento</h3>

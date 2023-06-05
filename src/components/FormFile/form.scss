@@ -19,6 +19,7 @@
     transition: all 250ms ease-in-out;
   }
 
+
   .form {
     margin-top: 2em;
     display: grid;
@@ -75,10 +76,10 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas:
     "file1 file1 file1 file1"
-    "file2 file2 file2 file2"
     "file3 file3 file3 file3"
     "file4 file4 file4 file4"
-    ". file5 file6 file6";
+    ". file5 file6 file6"
+    "file2 file2 file2 file2";
 
     align-items: center;
     gap: 20px;
@@ -89,6 +90,7 @@
 
     .file2 {
       grid-area: file2;
+      visibility: hidden;
     }
 
     .file3 {

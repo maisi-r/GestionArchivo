@@ -87,6 +87,14 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
 
   return (
     <>
+
+<div style={{ display: "flex", justifyContent: "flex-end" }}>
+  <button style={{ background: "#00aaee", color: "#ffffff" }} className="btn">
+    <Link to="/" style={{ color: "#ffffff", textDecoration: "none" }}>
+      Cerrar Sesión
+    </Link>
+  </button>
+</div>
       <div><GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
 
       <div className='Carga'>

@@ -21,46 +21,18 @@ const FormFile = () =>  {
     
     const onSubmit = async (data) => {
         const { system } = data;
-        
-        if (system !== defaultSystem) {
-            Swal.fire({
-                title: "Acceso denegado",
-                text: "No tienes permisos para cargar el archivo en este sistema.",
-                icon: "error",
-                timer: 3500
-            });
-            return;
-        }
-        
+    
         const formData = new FormData();
         formData.append("file", data.file[0]);
         formData.append("system", system);
         formData.append("name", data.name);
         formData.append("description", data.description);
-        
+    
         const result = await uploadFile(formData);
         reset();
         let id = result.data.file._id;
-        
-        Swal.fire({
-            title: "¿Quiere agregar información adicional a este archivo?",
-            confirmButtonText: "Sí",
-            denyButtonText: "No",
-            showDenyButton: true,
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                navigate(`/informacion-adicional/${id}`);
-                //await deleteIndicator(id);
-            } else {
-                Swal.fire({
-                    title: "Éxito",
-                    text: "Archivo guardado correctamente",
-                    icon: "success",
-                    timer: 3500
-                });
-                navigate(`/`);
-            }
-        });
+    
+        navigate(`/informacion-adicional/${id}`);
     };
 
     return (
