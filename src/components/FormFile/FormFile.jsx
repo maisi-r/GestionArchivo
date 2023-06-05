@@ -69,7 +69,7 @@ const FormFile = () =>  {
                     </div>
 
                     <div className="form-group file6">         
-                        <button onClick={() => navigate(-1)} className="btn">Cancelar</button>
+                    <button onClick={() => navigate('/archivos')} className="btn">Cancelar</button>
                     </div>
                 </form>
             </div>   
