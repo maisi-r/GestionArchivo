@@ -106,7 +106,7 @@ function Logineo() {
       // Enviamos una solicitud GET a la API para obtener los datos del usuario actual
       async function getUserData() {
         try {
-          const response = await axios.get('https://my-api.com/user', {
+          const response = await axios.get('http://138.117.77.156:3007/api/user', {
             headers: { Authorization: `Bearer ${token}` }
           });
 

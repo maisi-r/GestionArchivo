@@ -8,7 +8,6 @@ import { parse, isDate } from "date-fns";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import "./edit.scss"
-import { v4 as uuid } from 'uuid';
 
 
 import { Navigate, useNavigate } from 'react-router-dom';

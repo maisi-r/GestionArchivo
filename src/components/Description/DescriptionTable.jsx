@@ -7,6 +7,7 @@ import { useGetFileQuery } from '../../store/apis/fileApi';
 import "./descriptionFile.scss";
 import SectionContainer from '../Container/SectionContainer/SectionContainer';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import { format } from 'date-fns';
 
 const Description = () => {
   const { id } = useParams();
@@ -65,7 +66,7 @@ const Description = () => {
             <strong>Fecha:</strong> 
             </div>
             <div className='col-8'>
-            <p>{data.file.additionalInformation.date}</p>
+            <p>{format(new Date(data.file.additionalInformation.date), 'dd/MM/yy')}</p>
             </div>
 
             <div className='col-3'>

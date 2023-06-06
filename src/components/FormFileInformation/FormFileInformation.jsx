@@ -3,7 +3,8 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { useAddAditionaInformationFileMutation } from '../../store/apis/additionalInformationFileApi';
 import { useParams, useNavigate } from 'react-router-dom';
-import { parse, isDate, format } from "date-fns";
+import { parse, isDate } from "date-fns";
+import DatePicker from "react-datepicker";
 import Swal from 'sweetalert2';
 import "./formf.scss"
 
@@ -18,7 +19,7 @@ const FormFileInformation = () => {
   function parseDateString(value, originalValue) {
     const parsedDate = isDate(originalValue)
       ? originalValue
-      : parse(originalValue, "dd-MM-yyyy", new Date());
+      : parse(originalValue, "yyyy-MM-dd", new Date());
 
     return parsedDate;
   }
@@ -29,7 +30,7 @@ const FormFileInformation = () => {
       correlative: "",
       body: "",
       year: "",
-      date: new Date(),
+      date: "",
       initiator: "",
       issue: ""
     },
@@ -38,11 +39,10 @@ const FormFileInformation = () => {
       correlative: Yup.string().required(required),
       year: Yup.number().required(required),
       body: Yup.string().required(required),
-      date: Yup.date().nullable().transform(parseDateString).typeError("Al editar debe seleccionar nuevamente la fecha"),
+      date: Yup.string().required(required),
       initiator: Yup.string().required(required),
       issue: Yup.string().required(required),
     }),
-
     onSubmit: async (values) => {
       try {
         console.log(values);
@@ -72,14 +72,6 @@ const FormFileInformation = () => {
     errors,
     touched
   } = formik;
-
-  const handleDateChange = (event) => {
-    const inputValue = event.target.value;
-    const parsedDate = parse(inputValue, "dd-MM-yyyy", new Date());
-    setFieldValue("date", isDate(parsedDate) ? parsedDate : null);
-  };
-
-
 
   return (
     <div className='container'>
@@ -159,15 +151,17 @@ const FormFileInformation = () => {
           </div>
 
           
+
           <div className='formf-group item5'>
             <label htmlFor="date">Fecha</label>
             <input
-              type="text"
+              type='text'
               className={`input__light-${errors.date && touched.date ? 'warning' : 'success'}`}
-              placeholder="Ingrese la fecha (dd-MM-yyyy)"
-              value={values.date ? format(values.date, "dd-MM-yyyy") : ""}
+              label="Fecha de inicio"
+              placeholder="Ingrese la fecha"
+              value={values.date}
               onBlur={handleBlur}
-              onChange={handleDateChange}
+              onChange={handleChange}
               name="date"
             />
             {errors.date && touched.date && (
