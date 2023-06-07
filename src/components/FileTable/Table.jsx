@@ -189,12 +189,14 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
             </motion.button>{' '}
           </div>
 
-          <span>
-            Total Documentos{' '}
-            <strong>
-              {totalItems}
-            </strong>{' '}
-          </span>
+          {totalItems && (
+  <div>
+    Total Documentos{' '}
+    <strong>
+      {totalItems}
+    </strong>
+  </div>
+)}
         </div>
       </>
   )

@@ -5,7 +5,7 @@ export const addtionalInformationFileApi = createApi({
     reducerPath: 'addtionalInformationFileApi',
 
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://138.117.77.156:3007/api/'
+        baseUrl: 'http://138.117.77.156:3007/api'
     }),
 
 
