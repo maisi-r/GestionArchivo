@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import "./form.scss";
 import { useFormik } from 'formik';
 import * as Yup from "yup"; 
@@ -18,7 +18,17 @@ const FormFile = () =>  {
     
     const options = !isLoading && data.systems.map(item => ({ label: item.name, value: item.name }));
     const defaultSystem = "Expedientes";
-    
+
+    const selectSystemRef = useRef(null); // Referencia al campo "Sistema"
+
+    useEffect(() => {
+        // Seleccionar "Expedientes" y simular clic en el campo "Sistema"
+        if (selectSystemRef.current) {
+            selectSystemRef.current.value = defaultSystem;
+            selectSystemRef.current.click();
+        }
+    }, []);
+
     const onSubmit = async (data) => {
         const { system } = data;
     
