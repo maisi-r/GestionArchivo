@@ -29,16 +29,15 @@
     grid-template-rows: repeat(5,100px);
     grid-template-columns: repeat(4,1fr);
     grid-template-areas: 
-      "item1 item1 "
-      "item2 item2 "
-      "item3 item3 "
-      "item4 item4 "
-      "item5 item5 "
-      "item6 item6 "
-      "item7 item7 "
-      "item8 item8 "
-      "item9 item9 "
-      "item10 item11 "
+      "item1 item1 item1 item1"
+      "item2 item2 item2 item2"
+      "item3 item3 item3 item3"
+      "item4 item4 item4 item4"
+      "item5 item5 item5 item5"
+      "item6 item6 item6 item6"
+      "item7 item7 item7 item7"
+      "item8 item8 item8 item8"
+      " . item9 item10 ."
     ;
     gap: 20px;
 
@@ -76,6 +75,7 @@
 
     .item9 {
       grid-area: item9;
+      margin-bottom: 20px;
     }
 
     .item10 {

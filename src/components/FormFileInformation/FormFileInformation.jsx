@@ -3,8 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { useAddAditionaInformationFileMutation } from '../../store/apis/additionalInformationFileApi';
 import { useParams, useNavigate } from 'react-router-dom';
-import { parse, isDate } from "date-fns";
-import DatePicker from "react-datepicker";
+import { parse, isDate, format } from "date-fns";
 import Swal from 'sweetalert2';
 import "./formf.scss"
 
@@ -30,7 +29,7 @@ const FormFileInformation = () => {
       correlative: "",
       body: "",
       year: "",
-      date: "",
+      date: new Date(),
       initiator: "",
       issue: ""
     },
@@ -39,7 +38,7 @@ const FormFileInformation = () => {
       correlative: Yup.string().required(required),
       year: Yup.number().required(required),
       body: Yup.string().required(required),
-      date: Yup.string().required(required),
+      date: Yup.date().nullable().transform(parseDateString).typeError("Al editar debe seleccionar nuevamente la fecha"),
       initiator: Yup.string().required(required),
       issue: Yup.string().required(required),
     }),
@@ -119,7 +118,7 @@ const FormFileInformation = () => {
             <input
               type="text"
               className={`input__light-${errors.year && touched.year ? 'warning' : 'success'}`}
-              placeholder="Ingrese el año"
+              placeholder="Ingrese el nombre"
               value={values.year}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -155,10 +154,9 @@ const FormFileInformation = () => {
           <div className='formf-group item5'>
             <label htmlFor="date">Fecha</label>
             <input
-              type='text'
+              type="date"
               className={`input__light-${errors.date && touched.date ? 'warning' : 'success'}`}
-              label="Fecha de inicio"
-              placeholder="Ingrese la fecha"
+              placeholder="Seleccione una fecha"
               value={values.date}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -208,7 +206,12 @@ const FormFileInformation = () => {
           </div>
 
           <div className="formf-group item8">
-            <button type="submit" className="btn">Nueva carga</button>
+            <button type="submit" className="btn">Cargar</button>
+          </div>
+
+
+          <div className="formf-group item9">         
+                    <button onClick={() => navigate('/archivos')} className="btn">Cancelar</button>
           </div>
         </form>
       </div>
@@ -217,3 +220,5 @@ const FormFileInformation = () => {
 }
 
 export default FormFileInformation;
+
+

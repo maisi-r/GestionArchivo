@@ -31,7 +31,7 @@
       "item5 item5 item5 item5"
       "item6 item6 item6 item6"
       "item7 item7 item7 item7"
-      "item8 item8 . . ";
+      ". item8 item9 .";
     gap: 20px;
 
     .item1 {
@@ -64,6 +64,12 @@
 
     .item8 {
       grid-area: item8;
+      width: 100%;
+    }
+
+    .item9 {
+      grid-area: item9;
+      margin-bottom: 20px;
     }
   }
 

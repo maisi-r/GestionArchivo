@@ -1,29 +1,14 @@
-import React, { useState } from 'react';
-import { Document, Page } from 'react-pdf';
+import { Viewer, SpecialZoomLevel } from '@react-pdf-viewer/core';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'reactstrap';
-import { useParams, useNavigate } from 'react-router-dom';
-
-import "../components/Pdfmostrar.scss";
+import { useNavigate } from 'react-router-dom';
 
 function PdfMostrar(data) {
-  const [numPages, setNumPages] = useState(null);
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
-
-  const handleDownload = async () => {
-    const url = URL.createObjectURL(file);
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const a = document.createElement('a');
-    const filename = `${file.name}.pdf`;
-    const type = 'application/pdf';
-    const pdfBlob = new Blob([blob], { type });
-    a.href = URL.createObjectURL(pdfBlob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
 
   const handleFile = async () => {
     const objeto = data;
@@ -36,38 +21,42 @@ function PdfMostrar(data) {
     setFile(blob);
   };
 
-  const handleLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     handleFile();
   }, []);
 
+  const handleDownload = async () => {
+    const url = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    const filename = `${file.name}.pdf`;
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
     <div className="pdf-download">
-      <div className="pdf-container">
-        <div className="pdf-viewer">
+      <div className="pdf-viewer">
+        {file && (
+          <Viewer
+            fileUrl={URL.createObjectURL(file)}
+            plugins={[defaultLayoutPlugin]}
+            defaultScale={SpecialZoomLevel.PageFit} // Configura el nivel de zoom inicial
+            defaultLayout="SinglePage" // Configura el diseño de visualización inicial
+          />
+        )}
+      </div>
+      <div className="row">
+        <div className="col-12">
           {file && (
-            <Document
-              file={file}
-              onLoadSuccess={handleLoadSuccess}
-              onLoadError={(error) => console.log(error)}
-            >
-              {Array.from(new Array(numPages), (el, index) => (
-                <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-              ))}
-            </Document>
+            <Button color="primary" onClick={handleDownload}>
+              Descargar PDF
+            </Button>
           )}
+          <Button onClick={() => navigate(-1)}>Volver</Button>
         </div>
-      </div>
-      <div className='row'>
-      <div className="col-4"> 
-        {file && <button className="btn" onClick={handleDownload}>Descargar PDF</button>}
-      </div>
-      <div className="col-4">
-      <button onClick={() => navigate(-1)} className="btn">Volver</button>
-      </div>
       </div>
     </div>
   );

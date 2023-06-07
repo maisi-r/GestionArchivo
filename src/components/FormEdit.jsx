@@ -25,6 +25,8 @@ const FormEdit = () => {
   const [startDate, setStartDate] = useState(null);
   const [additionalInformation, setAdditionalInformation] = useState(null);
 
+  const required = "El campo es requerido";
+
   useEffect(() => {
     if (data) {
       setStartDate(new Date(data.date));
@@ -39,6 +41,7 @@ const FormEdit = () => {
   }, [data]);
 
   console.log(additionalInformationId);
+  
 
   const [updateFileMutation] = useUpdateFileMutation();
 
@@ -57,6 +60,7 @@ const FormEdit = () => {
       formik.setFieldValue('number', data?.file?.additionalInformation?.number || '');
       formik.setFieldValue('correlative', data?.file?.additionalInformation?.correlative || '');
       formik.setFieldValue('year', data?.file?.additionalInformation?.year || '');
+      // formik.setFieldValue('date', data?.file?.additionalInformation?.date || '');
       formik.setFieldValue('body', data?.file?.additionalInformation?.body || '');
       formik.setFieldValue('initiator', data?.file?.additionalInformation?.initiator || '');
       formik.setFieldValue('issue', data?.file?.additionalInformation?.issue || '');
@@ -73,14 +77,13 @@ const FormEdit = () => {
     name: Yup.string().required('El nombre es obligatorio'),
     description: Yup.string().required('La descripción es obligatoria'),
     number: Yup.string().required('El número es obligatorio'),
-    correlative: Yup.string().required('El correlativo es obligatorio'),
+    correlative: Yup.string().required(required).matches(/^[a-zA-Z0-9\s\.,áéíóúÁÉÍÓÚñÑ!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/,('El correlativo es obligatorio')),
     year: Yup.string().required('El año es obligatorio'),
+    // date: Yup.string().required('La fecha es obligatorio'),
     body: Yup.string().required('El cuerpo es obligatorio'),
-    initiator: Yup.string().required('El iniciador es obligatorio'),
-    issue: Yup.string().required('El asunto es obligatorio'),
+    initiator: Yup.string().required(required).matches(/^[a-zA-Z0-9\s\.,áéíóúÁÉÍÓÚñÑ!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/,('El iniciador es obligatorio')),
+    issue: Yup.string().required(required).matches(/^[a-zA-Z0-9\s\.,áéíóúÁÉÍÓÚñÑ!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/, ('El asunto es obligatorio')),
   });
-
-  console.log(data)
 
   const initialValues = {
     name: data?.file?.name || '',
@@ -88,6 +91,7 @@ const FormEdit = () => {
     number: additionalInformation ? additionalInformation.number : '',
     correlative: additionalInformation ? additionalInformation.correlative : '',
     year: additionalInformation ? additionalInformation.year : '',
+    // date: additionalInformation ? additionalInformation.date: '',
     body: additionalInformation ? additionalInformation.body : '',
     initiator: additionalInformation ? additionalInformation.initiator : '',
     issue: additionalInformation ? additionalInformation.issue : '',
@@ -102,7 +106,7 @@ const FormEdit = () => {
         number: values.number,
         correlative: values.correlative,
         year: values.year.toString(),
-        date: values.date,
+        // date: values.date,
         body: parseInt(values.body),
         initiator: values.initiator,
         issue: values.issue,
@@ -134,7 +138,7 @@ const FormEdit = () => {
         number: values.number,
         correlative: values.correlative,
         year: values.year.toString(),
-        date: values.date,
+        // date: values.date,
         body: parseInt(values.body),
         initiator: values.initiator,
         issue: values.issue,
@@ -178,7 +182,7 @@ const FormEdit = () => {
       <h3>Editar Archivo</h3>
         <div className="edit-container">
         
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className='form'>
             <div className='edit-group item1'>
               <label htmlFor="name">Nombre del documento</label>
               <input
@@ -269,10 +273,10 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='edit-group item6'>
+            {/* <div className='edit-group item6'>
               <label htmlFor="date">Fecha</label>
               <input
-    type="date"
+    type="text"
     className={`input__light-${errors.date && touched.date ? 'warning' : 'success'}`}
     placeholder="Ingrese la fecha"
     value={values.date}
@@ -285,9 +289,9 @@ const FormEdit = () => {
                   <small className="text-red-600">{errors.date}</small>
                 </div>
               )}
-            </div>
+            </div> */}
 
-            <div className='edit-group item7'>
+            <div className='edit-group item6'>
               <label htmlFor="body">Cuerpo</label>
               <input
               type="text"
@@ -305,7 +309,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='edit-group item8'>
+            <div className='edit-group item7'>
               <label htmlFor="initiator">Iniciador</label>
               <input
                 type="text"
@@ -323,7 +327,7 @@ const FormEdit = () => {
               )}
             </div>
 
-            <div className='edit-group item9'>
+            <div className='edit-group item8'>
               <label htmlFor="issue">Asunto</label>
               <input
                 type="text"
@@ -341,13 +345,13 @@ const FormEdit = () => {
               )}
             </div>
             
-            <div className="edit-group item10"> 
+            <div className="edit-group item9"> 
             <button type="submit" className="btn">
               Guardar
             </button>
             </div>
 
-            <div className="edit-group item11">
+            <div className="edit-group item10">
     <button onClick={() => navigate('/archivos')} className="btn">Cancelar</button>
 </div>
             
