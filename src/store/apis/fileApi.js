@@ -5,7 +5,7 @@ export const fileApi = createApi({
     reducerPath: 'fileApi',
 
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://138.117.77.156:3007/api/'
+        baseUrl: 'https://138.117.77.156:3007/api/'
     }),
 
     tagTypes: ["File"],
@@ -16,7 +16,6 @@ export const fileApi = createApi({
             query: (id) => `/file/${id}`, 
             providesTags: ["File"]
         }),
-
 
         getFiles: builder.query({
             query: () => '/file/?size=100', 
