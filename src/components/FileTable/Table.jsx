@@ -1,20 +1,21 @@
 import { BrowserRouter as Router, Link, } from 'react-router-dom';
 import { useTable, usePagination, useGlobalFilter } from 'react-table';
 import style from "./table.scss";
-import { BiArrowBack, BiPencil, BiTrash, BiChevronsLeft, BiLineChart, BiChevronsRight, BiChevronLeft, BiChevronRight, BiPlusCircle, BiBookmarkAltPlus, BiZoomIn } from "react-icons/bi";
+import { BiArrowBack, BiPencil, BiTrash, BiChevronsLeft, BiLineChart, BiChevronsRight, BiChevronLeft, BiChevronRight, BiPlusCircle, BiBookmarkAltPlus, BiZoomIn, BiRefresh } from "react-icons/bi";
 import "bootstrap/dist/css/bootstrap.css";
 import { motion } from "framer-motion";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { editOn } from '../../store/slices/idEditSlice';
-import { useDeleteFileMutation } from '../../store/apis/fileApi';
+import { useDeleteFileMutation, useUpdateFileMutation } from '../../store/apis/fileApi';
 import { GlobalFilter } from '../GlobalFilter';
 
-
-const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, typeUser = false }) => {
-  const dispatch = useDispatch();
+const Table = ({ columns, data, icon, color, handleEdit, totalItems, handleDownload , table, typeUser = false }) => {
+  
   const [deleteFile] = useDeleteFileMutation();
+  const [updateFile] = useUpdateFileMutation();
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const {
     getTableProps,
@@ -78,6 +79,29 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
     
     dispatch(editOn(id));
   };
+  
+  async function handleActualizar() {
+    try {
+      setIsUpdating(true);
+
+      // Obtén los datos actualizados que deseas enviar al servidor
+      const updatedData = /* ... */
+
+      // Realiza la actualización utilizando el endpoint 'updateFile'
+      await updateFile({ id: fileId, data: updatedData });
+
+      Swal.fire({ title: "Éxito", text: "Datos actualizados correctamente", icon: "success", timer: 3500 });
+
+      // Realiza acciones adicionales después de la actualización, como volver a cargar los datos actualizados
+
+    } catch (error) {
+      // Maneja el error o muestra un mensaje de error al usuario
+      console.error(error);
+      Swal.fire({ title: "Error", text: "Ocurrió un error al actualizar los datos", icon: "error", timer: 3500 });
+    } finally {
+      setIsUpdating(false);
+    }
+  }
 
 
   useEffect(() => {
@@ -88,83 +112,97 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
   return (
     <>
 
-<div style={{ display: "flex", justifyContent: "flex-end" }}>
-  <button style={{ background: "#00aaee", color: "#ffffff" }} className="btn">
-    <Link to="/" style={{ color: "#ffffff", textDecoration: "none" }}>
-      Cerrar Sesión
-    </Link>
-  </button>
-</div>
-      <div><GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
 
-      <div className='Carga'>
+                      
+                    <div className="Carga">
+                    <Link to="/carga" onClick={handleNew}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 1.02 }}
+                className="Carga"
+              >
+                <BiPlusCircle /> Nueva Carga
+              </motion.button>
+            </Link>
+            
+                    
         {!typeUser && (
-          <Link to="/carga" onClick={handleNew} >
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.02 }} className={"Carga"}>
-              <BiPlusCircle />Nueva Carga
-            </motion.button>
-          </Link>
-
-          
+          <>
+           
+            
+          </>
         )}
-      </div>
+      
+                </div>
 
-      <table className='table table-bordered' {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr  {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th  {...column.getHeaderProps()}>{column.render('Header')}</th>
-              ))}
-              <th className={style.actions__title}>Acciones</th>
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row, i) => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
-                <th className="actions__icons">
+
+      
                   
-                <Link to={`/editar/${row.original.id} `}>
-                  
-                  
-  <motion.button
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 1.02 }}
-    className={"editar"}
-  >
-    <BiPencil />
-  </motion.button>
-</Link>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 1.02 }}
-                    className={"borrar"}
-                    onClick={() => { handleDelete(row.original.id) }}
-                  >
-                    <BiTrash />
-                  </motion.button>
-                  {console.log(row.original)}
-                  <Link to={`/archivos/descripcion/${row.original.id}`}>
+                    
+                    
+     
+      
+      <div><GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
+      <br />
+      
+      <div className="table__container">
+        <table className="table__containerTable" {...getTableProps()}>
+          <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <th {...column.getHeaderProps()}>
+                    {column.render('Header')}
+                  </th>
+                ))}
+                <th className="actions__title">Acciones</th>
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {page.map((row, i) => {
+              prepareRow(row)
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => {
+                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  })}
+                  <th className="actions__icons">
+                    <Link to={`/editar/${row.original.id} `}>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 1.02 }}
+                        className={"editar"}
+                      >
+                        <BiPencil />
+                      </motion.button>
+                    </Link>
                     <motion.button
-                    className={"ver"}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 1.02 }}
+                      className={"borrar"}
+                      onClick={() => { handleDelete(row.original.id) }}
                     >
-                      <BiZoomIn />
+                      <BiTrash />
                     </motion.button>
-                  </Link>
-                </th>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+                    {console.log(row.original)}
+                    <Link to={`/archivos/descripcion/${row.original.id}`}>
+                      <motion.button
+                        className={"ver"}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 1.02 }}
+                      >
+                        <BiZoomIn />
+                      </motion.button>
+                    </Link>
+                  </th>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+        
+      </div>
 
         <div className="pagination">
           <span>
@@ -190,16 +228,16 @@ const Table = ({ columns, data, handleEdit, totalItems, handleDownload , table, 
           </div>
 
           {totalItems && (
-  <div>
-    Total Documentos{' '}
-    <strong>
-      {totalItems}
-    </strong>
-  </div>
-)}
+            <div>
+              Total Documentos{' '}
+              <strong>
+                {totalItems}
+              </strong>
+            </div>
+          )}
         </div>
-      </>
-  )
-}
+    </>
+  );
+};
 
 export default Table;

@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { useGetFilesQuery } from "../../store/apis/fileApi";
+import { BrowserRouter as Router, Link, } from 'react-router-dom';
 
 import Table from "./Table";
 import { BiGroup } from "react-icons/bi";
@@ -68,6 +69,14 @@ const FileTable = () => {
 
   return (
     <SectionContainer>
+      
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <button style={{ background: "#00aaee", color: "#ffffff" }} className="btn">
+          <Link to="/" style={{ color: "#ffffff", textDecoration: "none" }}>
+            Cerrar Sesión
+          </Link>
+        </button>
+      </div>
       <h3>Documentos</h3>
       <div className="containerInput"></div>
       <div className="table-container">

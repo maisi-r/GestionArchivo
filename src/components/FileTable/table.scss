@@ -100,15 +100,19 @@
   background-color: white;
   overflow: hidden;
   width: 100%;
-  th, td {
+  
+  td {
     text-align: left;
     font-size: 14px;
     padding: 12px;
+    font-weight: 500;
+   
   }
     
   th {
     //background-color: $color-gray;
     text-transform: uppercase;
+    text-align: center;
   }
 
   tr {
@@ -132,8 +136,8 @@
   // background-color: $item-hover;
   padding: 15px;
   font-size: 1rem;
-  font-weight: 500;
-  color: #ffffff;
+  font-weight: 700;
+  color: #000;
   // background: linear-gradient(97.33deg, rgb(40, 52, 186) -0.11%, rgb(57, 102, 219) 105.93%);
 }
 
@@ -355,4 +359,190 @@
     
 //   }
 
+
+// @import "../../styles/variables";
+// @import "../../styles/mixins";
+
+// .react-pdf__Page__annotations.annotationLayer {height: 0px !important;}
+
+
+// .table__container {
+//   border: 1px solid #E6E6EA;
+//   border-radius: 1rem;
+//   overflow-x: hidden;
+//   box-shadow: 10px 14px 16px 1px rgba(0,0,0,0.12);
+//   -webkit-box-shadow: 10px 14px 16px 1px rgba(0,0,0,0.12);
+//   -moz-box-shadow: 10px 14px 16px 1px rgba(0,0,0,0.12);
+
+//   @include breakpoint(md) {
+//     overflow-x: scroll;
+//   }
+
+// }
+
+// .table__headerColorDefault {
+//   width: 100%;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   background: #040f36;
+//   button {
+//     width: auto;
+//     margin-right: 15px;
+//   }
+
+// }
+
+// .table__headerColorPersonalized {
+//   width: 100%;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   background: linear-gradient(97.33deg, rgb(40, 52, 186) -0.11%, rgb(57, 102, 219) 105.93%);
+//   button {
+//     width: auto;
+//     margin-right: 15px;
+//   }
+// }
+
+// .table__headerGroup {
+//   color: #E6E6EA;
+//   padding: 15px;
+//   display: flex;
+//   gap: 15px;
+//   justify-content: flex-start;
+//   align-items: center;
+  
+// }
+
+// .table__headerIcon {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 45px;
+//   height: 45px;
+//   border-radius: 57px;
+//   background: rgba(50, 213, 164, 0.15);
+//   color: $primary-color;
+//   font-size: 1.8rem;
+// }
+
+// .table__headerIconPersonalized {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 45px;
+//   height: 45px;
+//   border-radius: 57px;
+//   background: rgba(22, 32, 29, 0.15);
+//   color: #ffffff;
+//   font-size: 1.8rem;
+// }
+
+// .table__headerButton {
+
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border-radius: 50%;
+//   background: transparent;
+//   color: #040f36;
+  
+//   border: none;
+//   outline: none;
+//   cursor: pointer;
+
+//   svg {
+//     font-size: 2rem;
+//     color: #ffffff;
+    
+//   }
+// }
+
+// .table__containerTable {
+//   border-collapse: collapse;
+//   background-color: white;
+//   overflow: hidden;
+//   width: 100%;
+//   th, td {
+    
+//     font-size: 14px;
+//     padding: 12px;
+//   }
+    
+//   th {
+//     //background-color: $color-gray;
+//     color: $texto-color-gray;
+//     text-transform: uppercase;text-align: center;
+//   }
+
+//   tr {
+//     border-bottom: 0.8px solid #E6E6EA;
+//   }
+// }
+
+// .actions__title {
+//   // background-color: $item-hover;
+//   padding: 15px;
+//   font-size: 1rem;
+//   font-weight: 500;
+//   color: #ffffff;
+//   // background: linear-gradient(97.33deg, rgb(40, 52, 186) -0.11%, rgb(57, 102, 219) 105.93%);
+// }
+
+// // .actions-title {
+// //   //text-align: center;
+// // }
+
+// .actions__icons {
+//   font-size: 1rem;
+//   button {
+//     color: #040f36;
+//     background: transparent;
+//     border: none;
+//     margin: 5px 2px;
+//     cursor: pointer;
+
+//     svg {
+//       font-size: 1.2rem;
+      
+//     }
+//   }
+// }
+
+// .pagination {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 15px;
+//   font-size: 0.75rem;
+
+//     input {
+//       outline: 0;
+//       border-color: $color-gray;
+//       padding: 2px 5px;
+//       text-align: center;
+//       border-radius: 5px;
+//     }
+// }
+
+// .pagination__icons {
+//   display: flex;
+//   gap: 10px;
+  
+//   button {
+//     cursor: pointer;
+//     border: none;
+//     font-size: 1.8rem;
+//     background-color: $primary-color;
+//     display: flex;
+//     padding: 4px;
+//     border-radius: 25px;
+//   }
+// } 
+
+
+// .swal2-title {
+//   font-size: 1.2rem!important;
+// }
   
